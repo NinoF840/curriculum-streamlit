@@ -1,0 +1,204 @@
+================================================================================
+                        NINO MEDICAL AI - INFORMAZIONI COMPLETE
+================================================================================
+
+PANORAMICA GENERALE
+-------------------
+Nino Medical AI è un'iniziativa di ricerca e sviluppo dedicata a creare soluzioni 
+di Intelligenza Artificiale a supporto del settore medico-sanitario. L'obiettivo 
+è fornire strumenti innovativi a ospedali, cliniche, università e centri di ricerca 
+per migliorare la diagnostica, ottimizzare i processi e accelerare la scoperta scientifica.
+
+PROFILO DEL RICERCATORE
+-----------------------
+Nome: Antonino Piacenza
+Ruolo: Ricercatore IA
+Email: ninomedical.ai@gmail.com
+Telefono: +39 3936789529
+WhatsApp: +39 3936789529
+Ubicazione: Castelvetrano (TP), Italia
+Anno di nascita: 1958
+
+Filosofia: "Da sempre curioso e pratico, unisco esperienza tecnica e umana per 
+contribuire a progetti innovativi. Credo nell'IA come strumento utile, ma solo 
+se resta l'uomo a guidarla."
+
+AREE DI INTERVENTO
+------------------
+
+1. 🔍 SUPPORTO ALLA DIAGNOSTICA
+   - Analisi di immagini mediche (TAC, RMN, ecografie)
+   - Assistenza ai medici nella diagnosi precoce
+   - Interpretazione di dati clinici complessi
+
+2. 🧠 MEDICINA PREDITTIVA
+   - Previsione insorgenza patologie
+   - Analisi risposta a terapie
+   - Modelli basati su dati storici e genetici
+
+3. 📊 OTTIMIZZAZIONE TRIAL CLINICI
+   - Selezione intelligente dei pazienti
+   - Monitoraggio andamento trial
+   - Analisi risultati automatizzata
+
+4. ⚙️ AUTOMAZIONE OSPEDALIERA
+   - Automazione task ripetitivi
+   - Ottimizzazione flussi di lavoro
+   - Supporto decisionale clinico
+
+STACK TECNOLOGICO
+-----------------
+
+Linguaggi & Framework:
+- Python 3.11+
+- Streamlit
+- FastAPI (pianificato)
+
+AI/ML Libraries:
+- TensorFlow/Keras
+- PyTorch
+- Scikit-learn
+- OpenCV
+
+Data & Infrastructure:
+- Pandas, NumPy
+- Docker
+- Linux Systems
+- Cloud Deployment
+
+STATO ATTUALE DEL PROGETTO
+--------------------------
+Fase: Ricerca e Sviluppo
+
+Attività in corso:
+- Esplorazione di partnership con istituzioni accademiche
+- Validazione modelli su dataset medici
+- Sviluppo prototipi per casi d'uso specifici
+- Collaborazioni con centri di ricerca sanitaria
+
+Metriche:
+- Progetti in R&D: 4+
+- Partnership Esplorate: 3
+- Anni Esperienza IA: 2+
+
+OBIETTIVI FUTURI
+----------------
+
+BREVE TERMINE (6-12 mesi):
+- Completare validazione prototipi su dataset reali
+- Stabilire partnership con almeno un ospedale o università
+- Pubblicare primi risultati di ricerca
+
+LUNGO TERMINE:
+- Creare una piattaforma integrata per supporto decisionale medico
+- Contribuire alla ricerca scientifica con pubblicazioni peer-reviewed
+- Sviluppare soluzioni certificate per uso clinico
+
+COLLABORAZIONI RICERCATE
+------------------------
+Interessato a collaborazioni con:
+
+🏥 OSPEDALI E CLINICHE: per validazione e implementazione di soluzioni IA
+🎓 UNIVERSITÀ E CENTRI DI RICERCA: per progetti di ricerca congiunti
+💼 AZIENDE SANITARIE: per sviluppo di prodotti innovativi
+🌍 PROGETTI HORIZON EUROPE: per finanziamenti e collaborazioni internazionali
+
+HORIZON EUROPE - PROPOSTE DI PROGETTO
+-------------------------------------
+
+Il progetto Nino Medical AI è allineato con gli obiettivi di Horizon Europe, 
+in particolare nei cluster dedicati a Salute e Digitale, Industria e Spazio.
+
+PROGETTO 1: PIATTAFORMA IA PER DIAGNOSTICA RURALE
+- Cluster: Salute, Digitale
+- Obiettivo: Ridurre le disparità sanitarie
+- Tecnologie: Federated Learning, AI, Cloud
+- Descrizione: Sviluppo di una piattaforma IA centralizzata per supportare 
+  la diagnostica in aree rurali o con accesso limitato a specialisti, usando 
+  modelli federati per garantire la privacy dei dati.
+
+PROGETTO 2: IA PER LA MEDICINA DI PRECISIONE
+- Cluster: Salute
+- Obiettivo: Migliorare l'efficacia delle cure
+- Tecnologie: Deep Learning, Big Data
+- Descrizione: Creazione di modelli predittivi per personalizzare le terapie 
+  oncologiche, analizzando dati genomici, clinici e di imaging per identificare 
+  i trattamenti più efficaci per ciascun paziente.
+
+AMBITI DI INTERESSE HORIZON EUROPE
+----------------------------------
+
+Cluster 1: Health
+- Staying healthy in a rapidly changing society
+- Tackling diseases and reducing disease burden
+- Unlocking the full potential of new tools, technologies and digital solutions for a healthy society
+
+Cluster 4: Digital, Industry and Space
+- A data-driven economy
+- Artificial Intelligence and Robotics
+- Next Generation Internet
+
+Mission: Cancer
+- Conquering cancer: mission possible
+
+RICERCA PARTNER PER CONSORZI
+----------------------------
+
+Sono attivamente alla ricerca di partner per formare consorzi e presentare 
+proposte per le prossime call di Horizon Europe.
+
+CHI CERCO:
+- UNIVERSITÀ E CENTRI DI RICERCA: per validazione scientifica e ricerca di base
+- OSPEDALI E STRUTTURE SANITARIE: per l'accesso ai dati e la validazione clinica
+- AZIENDE E PMI INNOVATIVE: per lo sviluppo, la commercializzazione e l'integrazione di soluzioni
+- ESPERTI DI REGOLAMENTAZIONE: per garantire la conformità normativa dei dispositivi medici basati su IA
+
+BACKGROUND PROFESSIONALE
+------------------------
+
+ESPERIENZA RECENTE:
+🖥️ Sistemista Remoto e Hardware Specialist (ca. 3 anni)
+- Gestione e manutenzione server Linux (Slackware, Mint, RedHat, Fedora, PuppyLinux)
+- Assemblaggio PC, test hardware, configurazione di sistemi sicuri (TAILS, Tor)
+- Competenze: troubleshooting, autonomia tecnica, competenze informatiche open source
+
+ESPERIENZA PRECEDENTE:
+🚂 Macchinista – Ferrovie dello Stato Italiane
+- Conduzione e gestione treni su tratte regionali e nazionali
+- Responsabilità nella sicurezza, rispetto di tempistiche, protocolli e gestione emergenze
+- Competenze: attenzione al dettaglio, gestione dello stress, affidabilità operativa
+
+⚓ Sergente – Marina Militare Italiana
+- Ruolo operativo e coordinativo su navi militari
+- Valori trasmessi: disciplina, leadership, spirito di squadra
+
+ISTRUZIONE
+----------
+📜 Diploma di Maturità Scientifica - Castelvetrano (TP)
+⚖️ Studi Universitari - Facoltà di Giurisprudenza (3 anni)
+
+COMPETENZE PRINCIPALI
+--------------------
+- Gestione sistemi Linux: 90%
+- Assemblaggio/test hardware: 80%
+- Utilizzo strumenti digitali: 95%
+- Autonomia operativa: 85%
+
+Altre competenze:
+- Problem Solving tecnico-pratico
+- Sviluppo e test schede elettroniche
+- Conoscenza ambienti open-source
+- Ricerca e sviluppo in IA medica
+
+STATISTICHE
+-----------
+- Anni di Esperienza: 25+
+- Progetti IA: 4+
+- Competenza Linux: 90%
+- Problem Solving: 95%
+
+================================================================================
+File creato: 30 Gennaio 2025
+Fonte: Applicazione Streamlit Curriculum - Antonino Piacenza
+© 2025 Antonino Piacenza - Ricercatore IA
+================================================================================
