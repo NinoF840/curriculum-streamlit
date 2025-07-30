@@ -1,8 +1,8 @@
-# 🧠 Curriculum Vitae - Antonino Piacenza
+# 🏥 Nino Medical AI
 
-## Ricercatore IA
+## Antonino Piacenza - Ricercatore IA
 
-Questo è il mio curriculum vitae interattivo sviluppato con Streamlit.
+Piattaforma di ricerca e sviluppo dedicata a soluzioni di Intelligenza Artificiale per il settore medico-sanitario.
 
 ### 🚀 Come eseguire localmente
 
@@ -11,22 +11,28 @@ Questo è il mio curriculum vitae interattivo sviluppato con Streamlit.
 pip install -r requirements.txt
 
 # Esegui l'applicazione
-streamlit run curriculum_app.py
+streamlit run nino_medical_ai_app.py
 ```
 
-### 📋 Contenuti
+### 🎯 Aree di Intervento
 
-- **Profilo Professionale**: Breve presentazione
-- **Progetti e Ricerca**: Focus su IA medica e progetti innovativi
-- **Esperienze Professionali**: Percorso lavorativo completo
-- **Competenze**: Skills tecniche e soft skills
-- **Istruzione**: Background formativo
+- **Supporto alla Diagnostica**: Analisi di immagini mediche (TAC, RMN, ecografie)
+- **Medicina Predittiva**: Previsione insorgenza patologie e analisi risposta a terapie
+- **Ottimizzazione Trial Clinici**: Selezione intelligente dei pazienti
+- **Automazione Ospedaliera**: Ottimizzazione flussi di lavoro e supporto decisionale
 
-### 🛠️ Tecnologie utilizzate
+### 🛠️ Stack Tecnologico
 
-- Python
+- Python 3.11+
 - Streamlit
-- HTML/CSS personalizzato
+- TensorFlow/Keras, PyTorch
+- Scikit-learn, OpenCV
+- Pandas, NumPy
+
+### 💰 Opportunità di Finanziamento
+
+- **Horizon Europe**: Cluster Salute e Digitale
+- **FESR Sicilia**: Specializzazione intelligente S3
 
 ### 📞 Contatti
 
@@ -36,4 +42,4 @@ streamlit run curriculum_app.py
 
 ---
 
-© 2025 Antonino Piacenza - Ricercatore IA
+© 2025 Antonino Piacenza - Nino Medical AI
