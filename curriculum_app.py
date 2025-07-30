@@ -81,7 +81,7 @@ def main():
     st.markdown('<h2 class="sub-header">🧠 Ricercatore IA</h2>', unsafe_allow_html=True)
     
     # Navigation tabs
-    tab1, tab2, tab3 = st.tabs(["📄 Curriculum Vitae", "🏥 Nino Medical AI", "🇪🇺 Horizon Europe"])
+    tab1, tab2, tab3, tab4 = st.tabs(["📄 Curriculum Vitae", "🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
     
     with tab1:
         render_cv_page()
@@ -91,6 +91,59 @@ def main():
 
     with tab3:
         render_horizon_europe_page()
+
+    with tab4:
+        render_regione_sicilia_page()
+
+def render_regione_sicilia_page():
+    st.markdown('<h2 class="section-header">🍋 Opportunità Regione Sicilia</h2>', unsafe_allow_html=True)
+
+    st.markdown("""
+    La **Regione Sicilia** offre importanti opportunità di finanziamento per la ricerca, lo sviluppo e l'innovazione,
+    in particolare attraverso i fondi del **FESR (Fondo Europeo di Sviluppo Regionale)**.
+    Il progetto **Nino Medical AI** si allinea perfettamente con gli obiettivi di specializzazione intelligente (S3) della regione.
+    """)
+
+    st.markdown('<h3 class="section-header">🎯 Assi di Finanziamento Rilevanti (FESR Sicilia 2021-2027)</h3>', unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        <div class="project-card">
+            <h4>OS 1.1: Sviluppare e rafforzare le capacità di ricerca e di innovazione</h4>
+            <p>Supporto a investimenti in infrastrutture di ricerca e potenziamento delle competenze, in stretta collaborazione con le università e i centri di ricerca siciliani.</p>
+            <ul>
+                <li><strong>Obiettivo</strong>: Potenziare l'ecosistema della ricerca.</li>
+                <li><strong>Tecnologie</strong>: Intelligenza Artificiale, Big Data, Bioinformatica.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+        <div class="project-card">
+            <h4>OS 1.4: Sviluppare le competenze per la specializzazione intelligente</h4>
+            <p>Finanziamenti per la transizione industriale e la trasformazione digitale delle imprese, con un focus su sanità, e-health e tecnologie emergenti.</p>
+            <ul>
+                <li><strong>Obiettivo</strong>: Favorire il trasferimento tecnologico.</li>
+                <li><strong>Tecnologie</strong>: Piattaforme digitali, AI per la salute, Robotica.</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('<h3 class="section-header">🤝 Proposta di Collaborazione Locale</h3>', unsafe_allow_html=True)
+    st.success("""
+    Siamo attivamente alla ricerca di partner siciliani per costruire un solido network e presentare proposte di valore.
+
+    **Chi cerchiamo:**
+    - **Università di Palermo, Catania e Messina**: per la validazione scientifica e la ricerca clinica.
+    - **Poli Ospedalieri e ASP siciliane**: per progetti pilota e l'accesso a dati anonimizzati.
+    - **PMI e startup innovative del settore ICT e MedTech**: per lo sviluppo e l'integrazione delle soluzioni.
+    - **Parchi Scientifici e Tecnologici**: come quello di Catania, per l'incubazione e lo sviluppo industriale.
+
+    Se sei un attore dell'ecosistema siciliano e sei interessato a collaborare, contattaci per esplorare sinergie.
+    """)
 
 def render_cv_page():
     
