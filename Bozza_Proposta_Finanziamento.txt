@@ -1,0 +1,126 @@
+================================================================================
+          BOZZA DI PROPOSTA DI FINANZIAMENTO - NINO MEDICAL AI
+================================================================================
+
+TITOLO PROGETTO:
+NinoMedAI - Piattaforma di Intelligenza Artificiale Federata per la Diagnostica
+Avanzata e la Medicina di Precisione in Aree a Bassa Densità Sanitaria
+
+ACRONIMO: NinoMedAI
+
+KEYWORDS:
+Intelligenza Artificiale, Federated Learning, Diagnostica Medica, Medicina di
+Precisione, Sanità Rurale, Horizon Europe, FESR Sicilia.
+
+--------------------------------------------------------------------------------
+1. ABSTRACT (SINTESI DELLA PROPOSTA)
+--------------------------------------------------------------------------------
+
+Il progetto NinoMedAI si propone di sviluppare e validare una piattaforma
+software innovativa basata su Intelligenza Artificiale (IA) e Federated
+Learning per migliorare l'accesso a strumenti di diagnostica avanzata nelle
+aree rurali e a bassa densità sanitaria. La piattaforma consentirà a ospedali
+e cliniche periferiche di utilizzare modelli di IA all'avanguardia per
+l'analisi di immagini mediche (TAC, RMN) e la medicina predittiva, senza
+compromettere la privacy dei dati dei pazienti.
+
+Il sistema opererà in modo federato, addestrando i modelli di IA in locale
+presso ciascuna struttura sanitaria e condividendo solo i parametri anonimi,
+garantendo così la massima sicurezza e conformità al GDPR.
+
+Il progetto mira a:
+- Ridurre le disparità sanitarie tra aree urbane e rurali.
+- Fornire un supporto decisionale di alta qualità ai medici.
+- Creare un modello di business sostenibile per il trasferimento tecnologico.
+
+Il consorzio riunisce partner accademici, clinici e industriali da 3 paesi
+europei, con un forte radicamento nell'ecosistema dell'innovazione siciliano.
+
+--------------------------------------------------------------------------------
+2. CONSORZIO PROPOSTO (ESEMPIO PER ACCETTAZIONE SICURA)
+--------------------------------------------------------------------------------
+
+Per soddisfare i requisiti di Horizon Europe (minimo 3 partner da 3 paesi),
+proponiamo un consorzio bilanciato:
+
+1.  COORDINATORE:
+    - NINO MEDICAL AI (PMI Innovativa, Italia): Project management, sviluppo
+      piattaforma IA, coordinamento scientifico.
+
+2.  PARTNER ACCADEMICI (Ricerca e Sviluppo Modelli IA):
+    - UNIVERSITÀ DI PALERMO (Dipartimento di Ingegneria, Italia): Expertise in IA
+      e analisi dati, validazione modelli.
+    - FRAUNHOFER INSTITUTE (Germania): Eccellenza nella ricerca applicata,
+      esperienza in Federated Learning e standard di sicurezza.
+
+3.  PARTNER CLINICI (Validazione e Test in ambiente reale):
+    - AZIENDA SANITARIA PROVINCIALE (ASP) DI TRAPANI (Italia): Fornitura dati
+      anonimizzati, test della piattaforma in un contesto rurale, feedback
+      clinico.
+    - OSPEDALE UNIVERSITARIO DI LIONE (Francia): Centro di eccellenza per la
+      diagnostica per immagini, validazione su casistiche complesse.
+
+4.  PARTNER INDUSTRIALE (Sviluppo e Disseminazione):
+    - MEDTECH SOLUTIONS S.R.L (PMI, Italia): Integrazione con sistemi
+      ospedalieri esistenti (HIS/RIS), commercializzazione e supporto tecnico.
+
+Questo consorzio garantisce copertura geografica, mix di competenze e un
+chiaro percorso verso il mercato.
+
+--------------------------------------------------------------------------------
+3. WORK PACKAGES (PIANO DI LAVORO SINTETICO)
+--------------------------------------------------------------------------------
+
+- WP1: Project Management e Coordinamento
+  (Leader: Nino Medical AI)
+  - Gestione amministrativa, finanziaria e tecnica del progetto.
+
+- WP2: Analisi dei Requisiti e Architettura della Piattaforma
+  (Leader: Università di Palermo)
+  - Definizione dei requisiti clinici e tecnici, progettazione
+    dell'architettura federata.
+
+- WP3: Sviluppo Modelli di IA per Diagnostica
+  (Leader: Fraunhofer Institute)
+  - Addestramento e ottimizzazione dei modelli di Deep Learning per l'analisi
+    di immagini TAC (es. noduli polmonari) e RMN (es. lesioni cerebrali).
+
+- WP4: Sviluppo della Piattaforma Federata
+  (Leader: Nino Medical AI)
+  - Implementazione del software per l'addestramento federato, dashboard di
+    visualizzazione e API di integrazione.
+
+- WP5: Validazione Clinica e Test
+  (Leader: ASP Trapani)
+  - Installazione e test della piattaforma presso i partner clinici, raccolta
+    feedback, valutazione delle performance.
+
+- WP6: Disseminazione, Sfruttamento e Comunicazione
+  (Leader: Medtech Solutions S.r.l.)
+  - Pubblicazioni scientifiche, partecipazione a conferenze, piano di
+    business e strategia di mercato.
+
+--------------------------------------------------------------------------------
+4. ALLINEAMENTO STRATEGICO (COME RISPONDE AI BANDI)
+--------------------------------------------------------------------------------
+
+A) HORIZON EUROPE (Cluster 1: Health; Cluster 4: Digital)
+   - Risponde alla call "Unlocking the full potential of new tools, technologies
+     and digital solutions for a healthy society".
+   - Affronta la sfida della "A data-driven economy" e "Artificial Intelligence
+     and Robotics".
+   - Contribuisce alla Mission "Cancer" attraverso la diagnostica precoce.
+
+B) FESR SICILIA 2021-2027 (Priorità 1: Ricerca e Innovazione)
+   - Si allinea all'Obiettivo Specifico 1.1 "Sviluppare e rafforzare le
+     capacità di ricerca e di innovazione".
+   - Contribuisce alla "Strategia di Specializzazione Intelligente (S3)" della
+     Regione Siciliana, in particolare nell'ambito "Salute dell'uomo" e "ICT".
+   - Promuove il trasferimento tecnologico e la collaborazione tra università
+     e imprese sul territorio.
+
+================================================================================
+NOTA: Questa è una bozza sintetica. Ogni sezione dovrà essere espansa con
+dettagli tecnici, budget, cronoprogramma (Gantt) e analisi di impatto.
+================================================================================
+
