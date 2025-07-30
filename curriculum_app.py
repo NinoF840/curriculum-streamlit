@@ -324,7 +324,7 @@ st.markdown("---")
 st.markdown("""
 <div style='text-align: center; color: #666; padding: 2rem;'>
     <p>© 2025 Antonino Piacenza - Ricercatore IA</p>
-    <p>Curriculum realizzato con Streamlit 🚀</p>
+    <p>Nino Medical AI - Piattaforma realizzata con Streamlit 🚀</p>
 </div>
 """, unsafe_allow_html=True)
 
