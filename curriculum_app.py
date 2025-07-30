@@ -81,19 +81,16 @@ def main():
     st.markdown('<h2 class="sub-header">🧠 Ricercatore IA</h2>', unsafe_allow_html=True)
     
     # Navigation tabs
-    # Navigation tabs - Nino Medical AI come default
-    tab1, tab2, tab3, tab4 = st.tabs(["🏥 Nino Medical AI", "📄 Curriculum Vitae", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
+    # Navigation tabs - Solo 3 sezioni principali
+    tab1, tab2, tab3 = st.tabs(["🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
 
     with tab1:
         render_nino_medical_ai_page()
 
     with tab2:
-        render_cv_page()
-
-    with tab3:
         render_horizon_europe_page()
 
-    with tab4:
+    with tab3:
         render_regione_sicilia_page()
 
 def render_regione_sicilia_page():
@@ -146,161 +143,6 @@ def render_regione_sicilia_page():
     Se sei un attore dell'ecosistema siciliano e sei interessato a collaborare, contattaci per esplorare sinergie.
     """)
 
-def render_cv_page():
-    
-    # Sidebar con info di contatto
-    with st.sidebar:
-        st.markdown("### 📞 Contatti")
-        st.write("📧 **Email:** ninomedical.ai@gmail.com")
-        st.write("📱 **Telefono:** +39 3936789529")
-        st.write("💬 **WhatsApp:** +39 3936789529")
-        st.write("📍 **Ubicazione:** Castelvetrano (TP), Italia")
-        st.write("🎂 **Anno di nascita:** 1958")
-        
-        st.markdown("---")
-        st.markdown("### 🔗 Collegamenti")
-        if st.button("📄 Scarica CV PDF"):
-            st.write("PDF in preparazione...")
-    
-    # Main content
-    col1, col2 = st.columns([2, 1])
-    
-    with col1:
-        # Profilo Professionale
-        st.markdown('<h2 class="section-header">👨‍💼 Profilo Professionale</h2>', unsafe_allow_html=True)
-        st.markdown("""
-        <div class="contact-info">
-        Da sempre curioso e pratico, unisco esperienza tecnica e umana per contribuire a 
-        progetti innovativi. Credo nell'IA come strumento utile, ma solo se resta l'uomo a guidarla.
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Hero Section - Nino Medical AI
-        st.markdown("""
-        <div class="hero-card">
-            <div class="hero-title">🏥 Nino Medical AI</div>
-            <div class="hero-subtitle">Progetto di Punta in Intelligenza Artificiale Medica</div>
-            <p>🔬 Soluzioni innovative per ospedali, università e centri di ricerca</p>
-            <p>📊 Supporto decisionale clinico • 🧠 Medicina predittiva • 🎯 Diagnostica assistita</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Progetti e Ricerca
-        st.markdown('<h2 class="section-header">🔬 Progetti e Ricerca</h2>', unsafe_allow_html=True)
-        
-        projects = [
-            {
-                "title": "🏥 Nino Medical AI",
-                "description": "Progetto di ricerca in IA applicata alla medicina"
-            },
-            {
-                "title": "🇪🇺 Contributi Horizon Europe",
-                "description": "In attesa di validazione per finanziamenti europei"
-            },
-            {
-                "title": "💡 Soluzioni Innovative Sanitarie",
-                "description": "Sviluppo soluzioni innovative per il settore sanitario"
-            },
-            {
-                "title": "🔬 Ricerca IA Medica",
-                "description": "Ricerca e sviluppo in ambito IA medica"
-            }
-        ]
-        
-        for project in projects:
-            st.markdown(f"""
-            <div class="project-card">
-                <h4>{project['title']}</h4>
-                <p>{project['description']}</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # Esperienze Professionali
-        st.markdown('<h2 class="section-header">💼 Esperienze Professionali</h2>', unsafe_allow_html=True)
-        
-        experiences = [
-            {
-                "role": "🖥️ Sistemista Remoto e Hardware Specialist",
-                "duration": "ca. 3 anni",
-                "details": [
-                    "Gestione e manutenzione server Linux (Slackware, Mint, RedHat, Fedora, PuppyLinux)",
-                    "Assemblaggio PC, test hardware, configurazione di sistemi sicuri (TAILS, Tor)",
-                    "Competenze: troubleshooting, autonomia tecnica, competenze informatiche open source"
-                ]
-            },
-            {
-                "role": "🚂 Macchinista – Ferrovie dello Stato Italiane",
-                "duration": "",
-                "details": [
-                    "Conduzione e gestione treni su tratte regionali e nazionali",
-                    "Responsabilità nella sicurezza, rispetto di tempistiche, protocolli e gestione emergenze",
-                    "Competenze: attenzione al dettaglio, gestione dello stress, affidabilità operativa"
-                ]
-            },
-            {
-                "role": "⚓ Sergente – Marina Militare Italiana",
-                "duration": "",
-                "details": [
-                    "Ruolo operativo e coordinativo su navi militari",
-                    "Valori trasmessi: disciplina, leadership, spirito di squadra"
-                ]
-            }
-        ]
-        
-        for exp in experiences:
-            st.markdown(f"""
-            <div class="experience-card">
-                <h4>{exp['role']}</h4>
-                <p><em>{exp['duration']}</em></p>
-                <ul>
-            """, unsafe_allow_html=True)
-            for detail in exp['details']:
-                st.markdown(f"<li>{detail}</li>", unsafe_allow_html=True)
-            st.markdown("</ul></div>", unsafe_allow_html=True)
-    
-    with col2:
-        # Istruzione
-        st.markdown('<h2 class="section-header">🎓 Istruzione</h2>', unsafe_allow_html=True)
-        st.markdown("""
-        **📜 Diploma di Maturità Scientifica**  
-        Castelvetrano (TP)
-        
-        **⚖️ Studi Universitari**  
-        Facoltà di Giurisprudenza (3 anni)
-        """)
-        
-        # Competenze
-        st.markdown('<h2 class="section-header">🛠️ Competenze</h2>', unsafe_allow_html=True)
-        
-        skills = [
-            ("Gestione sistemi Linux", 90),
-            ("Assemblaggio/test hardware", 80),
-            ("Utilizzo strumenti digitali", 95),
-            ("Autonomia operativa", 85)
-        ]
-        
-        for skill, level in skills:
-            st.write(f"**{skill}**")
-            st.progress(level/100)
-        
-        st.markdown("""
-        **Altre competenze:**
-        - Problem Solving tecnico-pratico
-        - Sviluppo e test schede elettroniche
-        - Conoscenza ambienti open-source
-        - Ricerca e sviluppo in IA medica
-        """)
-        
-        # Statistiche
-        st.markdown('<h2 class="section-header">📊 In Numeri</h2>', unsafe_allow_html=True)
-        
-        col_stat1, col_stat2 = st.columns(2)
-        with col_stat1:
-            st.metric("Anni di Esperienza", "25+")
-            st.metric("Progetti IA", "4+")
-        with col_stat2:
-            st.metric("Competenza Linux", "90%")
-            st.metric("Problem Solving", "95%")
 
 def render_nino_medical_ai_page():
     st.markdown('<h2 class="section-header">🏥 Nino Medical AI - Progetto di Ricerca</h2>', unsafe_allow_html=True)
