@@ -4,8 +4,8 @@ import base64
 
 # Configurazione della pagina
 st.set_page_config(
-    page_title="Antonino Piacenza - CV",
-    page_icon="🧠",
+    page_title="Nino Medical AI - Antonino Piacenza",
+    page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -81,13 +81,14 @@ def main():
     st.markdown('<h2 class="sub-header">🧠 Ricercatore IA</h2>', unsafe_allow_html=True)
     
     # Navigation tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["📄 Curriculum Vitae", "🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
-    
+    # Navigation tabs - Nino Medical AI come default
+    tab1, tab2, tab3, tab4 = st.tabs(["🏥 Nino Medical AI", "📄 Curriculum Vitae", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
+
     with tab1:
-        render_cv_page()
-    
-    with tab2:
         render_nino_medical_ai_page()
+
+    with tab2:
+        render_cv_page()
 
     with tab3:
         render_horizon_europe_page()
