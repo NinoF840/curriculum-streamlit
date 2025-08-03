@@ -1,6 +1,7 @@
 import streamlit as st
 from PIL import Image
 import base64
+from medical_database_integrations import render_database_integrations_page
 
 # Configurazione della pagina
 st.set_page_config(
@@ -77,12 +78,12 @@ st.markdown("""
 
 def main():
     # Header
-    st.markdown('<h1 class="main-header">ANTONINO PIACENZA</h1>', unsafe_allow_html=True)
-    st.markdown('<h2 class="sub-header">🧠 Ricercatore IA</h2>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">NINO MEDICAL AI</h1>', unsafe_allow_html=True)
+    st.markdown('<h2 class="sub-header">🏥 Progetto di Ricerca</h2>', unsafe_allow_html=True)
     
     # Navigation tabs
-    # Navigation tabs - Solo 3 sezioni principali
-    tab1, tab2, tab3 = st.tabs(["🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia"])
+    # Navigation tabs - 4 sezioni principali
+    tab1, tab2, tab3, tab4 = st.tabs(["🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia", "🌍 Database Medici"])
 
     with tab1:
         render_nino_medical_ai_page()
@@ -92,6 +93,9 @@ def main():
 
     with tab3:
         render_regione_sicilia_page()
+
+    with tab4:
+        render_database_integrations_page()
 
 def render_regione_sicilia_page():
     st.markdown('<h2 class="section-header">🍋 Opportunità Regione Sicilia</h2>', unsafe_allow_html=True)
