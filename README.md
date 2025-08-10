@@ -1,8 +1,32 @@
 # 🏥 Nino Medical AI
 
-## Antonino Piacenza - Ricercatore IA
+[![GitHub stars](https://img.shields.io/github/stars/NinoF840/curriculum-streamlit?style=social)](https://github.com/NinoF840/curriculum-streamlit/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/NinoF840/curriculum-streamlit?style=social)](https://github.com/NinoF840/curriculum-streamlit/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/NinoF840/curriculum-streamlit)](https://github.com/NinoF840/curriculum-streamlit/issues)
+[![Python](https://img.shields.io/badge/Python-3.11.7-blue.svg)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28+-red.svg)](https://streamlit.io)
+[![Medical AI](https://img.shields.io/badge/Medical-AI-green.svg)](#)
 
-Piattaforma di ricerca e sviluppo dedicata a soluzioni di Intelligenza Artificiale per il settore medico-sanitario.
+## 👨‍💻 Antonino Piacenza - Ricercatore IA
+
+Piattaforma **open source** di ricerca e sviluppo dedicata a soluzioni di Intelligenza Artificiale per il settore medico-sanitario. 
+
+🚀 **41 cloni** e **32 sviluppatori** hanno già scaricato il progetto!
+
+---
+
+## 🌟 **Aiutaci a Crescere!**
+
+**Ti piace il progetto?** 
+- ⭐ **Lascia una stella** se trovi utile Nino Medical AI!
+- 🐛 **Segnala bug** utilizzando i nostri [Issue Templates](https://github.com/NinoF840/curriculum-streamlit/issues/new/choose)
+- 💡 **Proponi nuove funzionalità** per migliorare la piattaforma
+- 🩺 **Condividi feedback medico-scientifico** - il tuo expertise è prezioso!
+- 🤝 **Contribuisci** seguendo la [Guida Contributi](CONTRIBUTING.md)
+
+**👥 Cerchiamo**: Medici, Ricercatori, Sviluppatori, Data Scientists per collaborare!
+
+---
 
 ## 📋 Requisiti di Sistema
 
@@ -113,4 +137,72 @@ L'applicazione sarà disponibile su: `http://localhost:8501`
 
 ---
 
-© 2025 Antonino Piacenza - Nino Medical AI
+## 🤝 Contribuire al Progetto
+
+### 🚀 Come Partecipare
+
+1. **🐛 Segnala Bug**: [Apri una Issue](https://github.com/NinoF840/curriculum-streamlit/issues/new?template=bug_report.md)
+2. **💡 Proponi Funzionalità**: [Feature Request](https://github.com/NinoF840/curriculum-streamlit/issues/new?template=feature_request.md)
+3. **🩺 Feedback Medico**: [Medical Feedback](https://github.com/NinoF840/curriculum-streamlit/issues/new?template=medical_feedback.md)
+4. **🔧 Contributi Codice**: Leggi la [Guida Contributi](CONTRIBUTING.md)
+
+### 🏆 Tipi di Contributori Ricercati
+
+| Profilo | Contributo | Badge |
+|---------|------------|---------|
+| 👨‍⚕️ **Medici Clinici** | Validazione scientifica e usabilità | 🩺 Medical Advisor |
+| 🔬 **Ricercatori** | Algoritmi AI e validazione | 🧬 AI Researcher |
+| 💻 **Sviluppatori** | Codice, UI/UX, performance | 🚀 Code Contributor |
+| 📊 **Data Scientists** | Modelli ML, analisi dati | 📈 Data Expert |
+| 🎓 **Studenti** | Test, documentazione, traduzioni | 📚 Learning Helper |
+
+### 🌟 Community Stats
+
+- **📦 Cloni Totali**: 41+
+- **👥 Sviluppatori Interessati**: 32+
+- **🔥 Picco Cloni**: 19 in un giorno (30 luglio)
+- **📈 Crescita**: In continua espansione!
+
+### 💬 Canali di Comunicazione
+
+- **🐛 Issues**: Per bug report e feature request
+- **📧 Email Diretta**: [ninomedical.ai@gmail.com](mailto:ninomedical.ai@gmail.com)
+- **💼 LinkedIn**: Collaborazioni professionali
+
+---
+
+## ⚠️ Disclaimer Medico
+
+⚡ **IMPORTANTE**: Questo software è sviluppato per **scopi educativi, dimostrativi e di ricerca**. 
+
+🚫 **NON utilizzare per diagnosi mediche reali o decisioni cliniche**. Consultare sempre professionisti sanitari qualificati.
+
+✅ **Usi Appropriati**:
+- Educazione e formazione medica
+- Ricerca e sviluppo di algoritmi IA
+- Prototipazione di soluzioni sanitarie
+- Studio e analisi di approcci innovativi
+
+---
+
+## 🏅 Riconoscimenti
+
+**Grazie a tutti i contributor che rendono possibile questo progetto!**
+
+### 🌟 Hall of Fame
+*Prossimamente: riconoscimenti per i primi contributori!*
+
+### 🎖️ Badges Disponibili
+- 🐛 **Bug Hunter**: Prima segnalazione bug
+- 🚀 **Feature Pioneer**: Prima feature implementata
+- 🩺 **Medical Validator**: Primo feedback scientifico
+- 📚 **Doc Hero**: Miglioramenti documentazione
+- 🔒 **Security Guard**: Miglioramenti sicurezza
+
+---
+
+**⭐ Se questo progetto ti è utile, lascia una stella! La tua stella ci motiva a continuare!**
+
+---
+
+© 2025 Antonino Piacenza - Nino Medical AI | 🚀 **Open Source per l'Innovazione Medica**

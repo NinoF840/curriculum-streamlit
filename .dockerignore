@@ -1,0 +1,127 @@
+# Nino Medical AI Pro - .dockerignore
+# File e directory da escludere dal build Docker
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.out
+
+# Cache
+.cache/
+*.tmp
+*.temp
+
+# Build artifacts
+*.exe
+*.spec
+build_optimized.py
+auto-py-to-exe/
+
+# Documentation
+*.md
+docs/
+screenshots/
+social_media_content.md
+
+# Test files
+test_*
+*_test.py
+pytest_cache/
+
+# Database files (development)
+*.db
+*.sqlite
+*.sqlite3
+
+# Secrets and config
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+secrets/
+private_key*
+*.pem
+*.key
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Temporary directories
+temp/
+tmp/
+.tmp/
+
+# Large files
+*.zip
+*.tar.gz
+*.tar
+*.rar
+
+# Models (troppo grandi per container)
+models/*.h5
+models/*.pkl
+models/*.joblib
+*.model
+
+# Exports
+exports/
+output/
+
+# Backup files
+*.bak
+*.backup
+*~

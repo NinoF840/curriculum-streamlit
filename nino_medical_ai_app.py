@@ -1,24 +1,52 @@
+#!/usr/bin/env python3
+"""
+Nino Medical AI - App Principale con Sistema di Protezione Pro
+==============================================================
+
+App Streamlit che integra autenticazione, licensing Pro e funzionalità demo.
+Protegge le funzionalità avanzate e guida gli utenti verso l'upgrade.
+
+Author: Antonino Piacenza
+Email: ninomedical.ai@gmail.com
+"""
+
 import streamlit as st
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+from datetime import datetime
 from PIL import Image
 import base64
-from medical_database_integrations import render_database_integrations_page
+import sys
+from pathlib import Path
 
-# Configurazione della pagina
+# Importa moduli di autenticazione e licensing
+try:
+    from auth_system import AuthManager, SessionManager, render_login_form, render_user_profile, render_admin_panel, UserRole
+    from pro_license_system import LicenseManager, ProFeatureGuard, demo_pro_features, show_upgrade_info
+except ImportError as e:
+    st.error(f"⚠️ Errore importazione moduli: {e}")
+    st.stop()
+
+# --- Page Configuration ---
 st.set_page_config(
-    page_title="Nino Medical AI - Antonino Piacenza",
+    page_title="Nino Medical AI",
     page_icon="🏥",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# CSS personalizzato
+# --- Custom CSS ---
 st.markdown("""
 <style>
+    /* General Styles */
     .main-header {
         font-size: 3rem;
         color: #1f4e79;
         text-align: center;
         margin-bottom: 0.5rem;
+        font-weight: bold;
     }
     .sub-header {
         font-size: 1.5rem;
@@ -27,310 +55,667 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     .section-header {
-        font-size: 1.8rem;
+        font-size: 2rem;
         color: #1f4e79;
-        border-bottom: 2px solid #1f4e79;
+        border-bottom: 3px solid #1f4e79;
         padding-bottom: 0.5rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-    .contact-info {
-        background-color: #f0f2f6;
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-    }
-    .project-card {
-        background-color: #e8f5e8;
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        border-left: 4px solid #2e7d32;
-    }
-    .experience-card {
-        background-color: #f8f9fa;
-        padding: 1rem;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        border-left: 4px solid #1f4e79;
-    }
-    .hero-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 15px;
-        margin: 2rem 0;
-        text-align: center;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    }
-    .hero-title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        margin-bottom: 1rem;
-    }
-    .hero-subtitle {
-        font-size: 1.2rem;
-        opacity: 0.9;
+        margin-top: 2.5rem;
         margin-bottom: 1.5rem;
+        font-weight: bold;
+    }
+    .card {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .card:hover {
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        transform: translateY(-5px);
+    }
+    .metric-card {
+        background-color: #f9f9f9;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid #e0e0e0;
+    }
+    .pro-banner {
+        background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        margin: 1rem 0;
+    }
+    .free-tier-notice {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+    }
+    .footer {
+        text-align: center;
+        color: #666;
+        padding: 2rem;
+        margin-top: 4rem;
+        border-top: 1px solid #e0e0e0;
     }
 </style>
 """, unsafe_allow_html=True)
 
+# --- Main Application ---
 def main():
-    # Header
-    st.markdown('<h1 class="main-header">NINO MEDICAL AI</h1>', unsafe_allow_html=True)
-    st.markdown('<h2 class="sub-header">🏥 Progetto di Ricerca</h2>', unsafe_allow_html=True)
+    """Main function to render the Streamlit app."""
     
-    # Navigation tabs
-    # Navigation tabs - 4 sezioni principali
-    tab1, tab2, tab3, tab4 = st.tabs(["🏥 Nino Medical AI", "🇪🇺 Horizon Europe", "🍋 Regione Sicilia", "🌍 Database Medici"])
+    # Check authentication
+    if not SessionManager.is_authenticated():
+        render_welcome_page()
+        return
+    
+    # Authenticated user interface
+    render_authenticated_app()
 
+def render_welcome_page():
+    """Renders welcome page with login and demo."""
+    st.markdown('<h1 class="main-header">🏥 Nino Medical AI</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">Intelligenza Artificiale per la Medicina del Futuro</p>', unsafe_allow_html=True)
+    
+    # Banner principale
+    st.markdown("""
+    <div class="pro-banner">
+        <h2>🚀 Benvenuto nella piattaforma di IA medica più avanzata</h2>
+        <p>Scopri come l'Intelligenza Artificiale sta rivoluzionando la medicina con analisi predittive, elaborazione di imaging medico e integrazione di database globali.</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Tabs per contenuto
+    tab1, tab2, tab3 = st.tabs(["🚪 Login/Registrazione", "🎯 Demo Gratuita", "💎 Versione Pro"])
+    
     with tab1:
-        render_nino_medical_ai_page()
-
+        render_login_form()
+    
     with tab2:
-        render_horizon_europe_page()
-
+        render_free_demo()
+    
     with tab3:
-        render_regione_sicilia_page()
+        show_upgrade_info()
 
-    with tab4:
-        render_database_integrations_page()
-
-def render_regione_sicilia_page():
-    st.markdown('<h2 class="section-header">🍋 Opportunità Regione Sicilia</h2>', unsafe_allow_html=True)
-
-    st.markdown("""
-    La **Regione Sicilia** offre importanti opportunità di finanziamento per la ricerca, lo sviluppo e l'innovazione,
-    in particolare attraverso i fondi del **FESR (Fondo Europeo di Sviluppo Regionale)**.
-    Il progetto **Nino Medical AI** si allinea perfettamente con gli obiettivi di specializzazione intelligente (S3) della regione.
-    """)
-
-    st.markdown('<h3 class="section-header">🎯 Assi di Finanziamento Rilevanti (FESR Sicilia 2021-2027)</h3>', unsafe_allow_html=True)
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        <div class="project-card">
-            <h4>OS 1.1: Sviluppare e rafforzare le capacità di ricerca e di innovazione</h4>
-            <p>Supporto a investimenti in infrastrutture di ricerca e potenziamento delle competenze, in stretta collaborazione con le università e i centri di ricerca siciliani.</p>
-            <ul>
-                <li><strong>Obiettivo</strong>: Potenziare l'ecosistema della ricerca.</li>
-                <li><strong>Tecnologie</strong>: Intelligenza Artificiale, Big Data, Bioinformatica.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-        <div class="project-card">
-            <h4>OS 1.4: Sviluppare le competenze per la specializzazione intelligente</h4>
-            <p>Finanziamenti per la transizione industriale e la trasformazione digitale delle imprese, con un focus su sanità, e-health e tecnologie emergenti.</p>
-            <ul>
-                <li><strong>Obiettivo</strong>: Favorire il trasferimento tecnologico.</li>
-                <li><strong>Tecnologie</strong>: Piattaforme digitali, AI per la salute, Robotica.</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown('<h3 class="section-header">🤝 Proposta di Collaborazione Locale</h3>', unsafe_allow_html=True)
-    st.success("""
-    Siamo attivamente alla ricerca di partner siciliani per costruire un solido network e presentare proposte di valore.
-
-    **Chi cerchiamo:**
-    - **Università di Palermo, Catania e Messina**: per la validazione scientifica e la ricerca clinica.
-    - **Poli Ospedalieri e ASP siciliane**: per progetti pilota e l'accesso a dati anonimizzati.
-    - **PMI e startup innovative del settore ICT e MedTech**: per lo sviluppo e l'integrazione delle soluzioni.
-    - **Parchi Scientifici e Tecnologici**: come quello di Catania, per l'incubazione e lo sviluppo industriale.
-
-    Se sei un attore dell'ecosistema siciliano e sei interessato a collaborare, contattaci per esplorare sinergie.
-    """)
-
-
-def render_nino_medical_ai_page():
-    st.markdown('<h2 class="section-header">🏥 Nino Medical AI - Progetto di Ricerca</h2>', unsafe_allow_html=True)
+def render_free_demo():
+    """Renders free demo features."""
+    st.markdown("## 🎯 Prova Gratuita - Funzionalità Base")
     
     st.markdown("""
-    **Nino Medical AI** è un'iniziativa di ricerca e sviluppo dedicata a creare soluzioni di Intelligenza Artificiale a supporto del settore medico-sanitario. 
-    L'obiettivo è fornire strumenti innovativi a **ospedali, cliniche, università e centri di ricerca** per migliorare la diagnostica, ottimizzare i processi e accelerare la scoperta scientifica.
-    """)
-
-    st.markdown('<h3 class="section-header">🎯 Aree di Intervento</h3>', unsafe_allow_html=True)
+    <div class="free-tier-notice">
+        <strong>📍 Modalità Demo Gratuita</strong><br>
+        Stai utilizzando la versione gratuita con funzionalità limitate. 
+        Effettua il login o registrati per accedere a più funzionalità!
+    </div>
+    """, unsafe_allow_html=True)
     
+    # Demo funzionalità base
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
-        🔍 **Supporto alla Diagnostica**
-        - Analisi di immagini mediche (TAC, RMN, ecografie)
-        - Assistenza ai medici nella diagnosi precoce
-        - Interpretazione di dati clinici complessi
+        st.markdown("### 📊 Database Medici - Demo")
         
-        🧠 **Medicina Predittiva**
-        - Previsione insorgenza patologie
-        - Analisi risposta a terapie
-        - Modelli basati su dati storici e genetici
-        """)
+        demo_query = st.text_input("Cerca pubblicazioni (demo):", placeholder="es. covid vaccine")
+        
+        if st.button("🔍 Cerca (Demo)"):
+            if demo_query:
+                with st.spinner("Ricerca demo in corso..."):
+                    # Simulazione risultati limitati
+                    st.success("Demo: Trovati 5 risultati (versione Pro: 500+ risultati)")
+                    demo_data = {
+                        'Titolo': [f'[DEMO] Studio su {demo_query} - {i+1}' for i in range(3)],
+                        'Autori': ['Demo Author et al.' for _ in range(3)],
+                        'Anno': [2023, 2022, 2021]
+                    }
+                    st.dataframe(pd.DataFrame(demo_data))
+                    
+                    st.info("💎 La versione Pro offre: Accesso completo a tutti i database, export PDF, analisi AI avanzate")
+            else:
+                st.warning("Inserisci un termine di ricerca")
     
     with col2:
-        st.markdown("""
-        📊 **Ottimizzazione Trial Clinici**
-        - Selezione intelligente dei pazienti
-        - Monitoraggio andamento trial
-        - Analisi risultati automatizzata
+        st.markdown("### 🧠 Analisi IA - Demo")
         
-        ⚙️ **Automazione Ospedaliera**
-        - Automazione task ripetitivi
-        - Ottimizzazione flussi di lavoro
-        - Supporto decisionale clinico
-        """)
+        st.info("Carica un'immagine per una demo di analisi")
+        
+        uploaded_file = st.file_uploader("Scegli un file (demo)", type=['png', 'jpg', 'jpeg'])
+        
+        if uploaded_file:
+            st.image(uploaded_file, caption="Immagine caricata - Demo", width=300)
+            
+            if st.button("⚡ Analizza (Demo)"):
+                with st.spinner("Analisi demo in corso..."):
+                    # Simulazione analisi limitata
+                    st.success("✅ Analisi completata (modalità demo)")
+                    
+                    # Risultati demo limitati
+                    col_a, col_b = st.columns(2)
+                    with col_a:
+                        st.metric("Confidence", "Demo: 85%")
+                    with col_b:
+                        st.metric("Categoria", "Demo Result")
+                    
+                    st.warning("💎 Versione Pro: Analisi completa, modelli specializzati, report dettagliati")
 
-    st.markdown('<h3 class="section-header">🛠️ Stack Tecnologico</h3>', unsafe_allow_html=True)
+def render_authenticated_app():
+    """Renders the main authenticated application."""
+    render_sidebar()
     
-    tech_col1, tech_col2, tech_col3 = st.columns(3)
+    # Page routing
+    page = st.session_state.get('current_page', 'dashboard')
     
-    with tech_col1:
-        st.markdown("""
-        **Linguaggi & Framework**
-        - Python 3.11+
-        - Streamlit
-        - FastAPI (planned)
-        """)
+    if page == 'dashboard':
+        render_main_dashboard()
+    elif page == 'databases':
+        render_medical_databases_page()
+    elif page == 'predictive_medicine':
+        render_predictive_medicine_page()
+    elif page == 'clinical_trials':
+        render_clinical_trials_page()
+    elif page == 'pro_features':
+        render_pro_features_page()
+    elif page == 'profile':
+        render_user_profile()
+    elif page == 'admin':
+        render_admin_panel()
+    elif page == 'about':
+        render_about_page()
     
-    with tech_col2:
-        st.markdown("""
-        **AI/ML Libraries**
-        - TensorFlow/Keras
-        - PyTorch
-        - Scikit-learn
-        - OpenCV
-        """)
-    
-    with tech_col3:
-        st.markdown("""
-        **Data & Infrastructure**
-        - Pandas, NumPy
-        - Docker
-        - Linux Systems
-        - Cloud Deployment
-        """)
+    render_footer()
 
-    st.markdown('<h3 class="section-header">📈 Stato del Progetto</h3>', unsafe_allow_html=True)
+def render_sidebar():
+    """Renders the navigation sidebar."""
+    with st.sidebar:
+        user = SessionManager.get_current_user()
+        
+        st.markdown('<h1 style="text-align: center; color: #1f4e79;">Nino Medical AI</h1>', unsafe_allow_html=True)
+        
+        # User info
+        if user:
+            st.markdown(f"""
+            <div style="text-align: center; padding: 10px; background: #f0f8ff; border-radius: 8px; margin-bottom: 20px;">
+                <strong>👤 {user.full_name}</strong><br>
+                <small>{user.role.value.title()}</small>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Check Pro status
+            license_manager = LicenseManager()
+            is_pro_user = license_manager.validate_pro_access(user.id)
+            
+            if is_pro_user:
+                st.markdown("✨ **UTENTE PRO** ✨")
+            else:
+                st.markdown("🆓 **Utente Gratuito**")
+                if st.button("💎 Upgrade to Pro", key="sidebar_upgrade", use_container_width=True):
+                    st.session_state.current_page = 'pro_features'
+                    st.rerun()
+        
+        st.markdown("---")
+        
+        # Navigation menu
+        st.markdown("### 🏥 Navigazione")
+        nav_buttons = {
+            "📊 Dashboard": "dashboard",
+            "🌍 Database Medici": "databases", 
+            "🧠 Medicina Predittiva": "predictive_medicine",
+            "🧪 Trial Clinici": "clinical_trials",
+            "💎 Funzionalità Pro": "pro_features",
+            "👤 Profilo": "profile",
+            "👨‍💻 Chi Sono": "about"
+        }
+        
+        # Add admin option for admin users
+        if user and user.role == UserRole.ADMIN:
+            nav_buttons["⚙️ Admin Panel"] = "admin"
+        
+        for label, page_key in nav_buttons.items():
+            if st.button(label, key=f"nav_{page_key}", use_container_width=True):
+                st.session_state.current_page = page_key
+                st.rerun()
+        
+        st.markdown("---")
+        
+        # Logout
+        if st.button("🚪 Logout", key="logout", use_container_width=True):
+            SessionManager.clear_session()
+            st.rerun()
+        
+        st.markdown("---")
+        st.markdown("### 📊 Statistiche")
+        st.metric("🤖 Modelli AI", "45+", delta="5 recenti")
+        st.metric("📄 Pubblicazioni", "1.2M+", delta="10k recenti")
+        st.metric("📈 Analisi", "250k+")
+
+def render_main_dashboard():
+    """Renders the main dashboard."""
+    user = SessionManager.get_current_user()
+    license_manager = LicenseManager()
+    is_pro_user = license_manager.validate_pro_access(user.id)
     
-    status_col1, status_col2 = st.columns([2, 1])
+    st.markdown('<h1 class="main-header">🏥 Dashboard Principale</h1>', unsafe_allow_html=True)
     
-    with status_col1:
-        st.info("🔬 **Fase Attuale**: Ricerca e Sviluppo")
-        st.markdown("""
-        - Esplorazione di partnership con istituzioni accademiche
-        - Validazione modelli su dataset medici
-        - Sviluppo prototipi per casi d'uso specifici
-        - Collaborazioni con centri di ricerca sanitaria
-        """)
-    
-    with status_col2:
-        st.metric("Progetti in R&D", "4+")
-        st.metric("Partnership Esplorate", "3")
-        st.metric("Anni Esperienza IA", "2+")
-    
-    st.markdown('<h3 class="section-header">🎁 Obiettivi Futuri</h3>', unsafe_allow_html=True)
-    
+    if is_pro_user:
+        st.markdown('<p class="sub-header">✨ Benvenuto nella versione Pro Ultimate!</p>', unsafe_allow_html=True)
+        render_pro_dashboard()
+    else:
+        st.markdown('<p class="sub-header">Versione Gratuita - Funzionalità Limitate</p>', unsafe_allow_html=True)
+        render_free_dashboard()
+
+def render_free_dashboard():
+    """Renders limited dashboard for free users."""
     st.markdown("""
-    🎯 **Obiettivi a Breve Termine (6-12 mesi)**:
-    - Completare validazione prototipi su dataset reali
-    - Stabilire partnership con almeno un ospedale o università
-    - Pubblicare primi risultati di ricerca
+    <div class="free-tier-notice">
+        🆓 <strong>Versione Gratuita Attiva</strong><br>
+        Hai accesso alle funzionalità base. Upgrade alla versione Pro per sbloccare tutto!
+    </div>
+    """, unsafe_allow_html=True)
     
-    🚀 **Visione a Lungo Termine**:
-    - Creare una piattaforma integrata per supporto decisionale medico
-    - Contribuire alla ricerca scientifica con pubblicazioni peer-reviewed
-    - Sviluppare soluzioni certificate per uso clinico
-    """)
+    # Limited metrics
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🔍 Ricerche", "5/10", delta="Limite gratuito")
+    with col2:
+        st.metric("📊 Analisi IA", "2/5", delta="Limite giornaliero")
+    with col3:
+        st.metric("💾 Export", "0/0", delta="Solo Pro")
+    with col4:
+        st.metric("⏰ Ultimo Accesso", datetime.now().strftime("%H:%M"))
     
-    st.markdown('<h3 class="section-header">🤝 Collaborazioni</h3>', unsafe_allow_html=True)
-    st.markdown("""
-    Interessato a collaborazioni con:
-    - 🏥 **Ospedali e Cliniche**: per validazione e implementazione di soluzioni IA
-    - 🎓 **Università e Centri di Ricerca**: per progetti di ricerca congiunti
-    - 💼 **Aziende Sanitarie**: per sviluppo di prodotti innovativi
-    - 🌍 **Progetti Horizon Europe**: per finanziamenti e collaborazioni internazionali
-    """)
+    # Demo charts
+    st.markdown("### 📈 Demo Funzionalità")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🔬 Analisi Demo")
+        demo_data = pd.DataFrame({
+            'Categoria': ['Demo A', 'Demo B', 'Demo C'],
+            'Valori': [40, 30, 30]
+        })
+        fig = px.pie(demo_data, values='Valori', names='Categoria', title="Dati Demo")
+        st.plotly_chart(fig, use_container_width=True)
+        
+    with col2:
+        st.markdown("#### 📊 Statistiche Base")
+        demo_trend = pd.DataFrame({
+            'Giorno': ['Lun', 'Mar', 'Mer', 'Gio', 'Ven'],
+            'Utilizzo': [3, 5, 2, 4, 1]
+        })
+        fig = px.line(demo_trend, x='Giorno', y='Utilizzo', title="Utilizzo Settimanale")
+        st.plotly_chart(fig, use_container_width=True)
 
-def render_horizon_europe_page():
-    st.markdown('<h2 class="section-header">🇪🇺 Contributi per Horizon Europe</h2>', unsafe_allow_html=True)
+def render_pro_dashboard():
+    """Renders full dashboard for Pro users."""
+    st.success("✅ Funzionalità Pro attive!")
+    
+    # Full metrics
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🔍 Ricerche", "∞", delta="Illimitate")
+    with col2:
+        st.metric("📊 Analisi IA", "∞", delta="Illimitate")
+    with col3:
+        st.metric("💾 Export", "45", delta="+12 oggi")
+    with col4:
+        st.metric("⚡ Performance", "99.2%", delta="+2.1%")
+    
+    # Advanced charts
+    st.markdown("### 🚀 Analytics Avanzate Pro")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### 🔬 Modelli AI Performance")
+        models_data = pd.DataFrame({
+            'Modello': ['CV Risk', 'Diabetes Pred', 'Cancer Screen', 'Drug Response'],
+            'Accuratezza': [94.5, 91.2, 89.7, 92.1],
+            'Utilizzo': [150, 89, 67, 201]
+        })
+        fig = px.scatter(models_data, x='Accuratezza', y='Utilizzo', size='Utilizzo',
+                        color='Modello', title="Performance vs Utilizzo")
+        st.plotly_chart(fig, use_container_width=True)
+        
+    with col2:
+        st.markdown("#### 📈 Trend Analisi Mensile")
+        months = ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu']
+        analysis_counts = [120, 150, 180, 220, 250, 300]
+        fig = px.bar(x=months, y=analysis_counts, title="Analisi per Mese")
+        st.plotly_chart(fig, use_container_width=True)
 
-    st.markdown("""
-    **Horizon Europe** rappresenta un'opportunità fondamentale per finanziare e scalare progetti di ricerca innovativi in Europa. 
-    La mia iniziativa **Nino Medical AI** è allineata con gli obiettivi di Horizon Europe, in particolare nei cluster dedicati a **Salute** e **Digitale, Industria e Spazio**.
-    """)
+@ProFeatureGuard.require_pro_feature('database_access')
+def render_medical_databases_page():
+    """Renders medical databases page - Pro feature."""
+    st.markdown('<h2 class="section-header">🌍 Database Medici Globali</h2>', unsafe_allow_html=True)
+    st.success("✅ Accesso Pro attivo - Database completi disponibili")
+    
+    # Pro database interface
+    db_options = ["PubMed", "ClinicalTrials.gov", "FDA", "WHO", "UniProt", "Disease Ontology", "OMIM", "PharmGKB"]
+    selected_db = st.selectbox("Database:", db_options)
+    
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        search_query = st.text_input("Query di ricerca:", placeholder="es. BRCA1 mutations breast cancer")
+    with col2:
+        max_results = st.number_input("Max risultati:", 10, 1000, 100)
+    
+    if st.button("🔍 Ricerca Avanzata", use_container_width=True):
+        if search_query:
+            with st.spinner(f"Ricerca su {selected_db}..."):
+                # Simulazione ricerca Pro
+                st.success(f"✅ Trovati {max_results} risultati in {selected_db}")
+                
+                # Results table
+                results_data = {
+                    'Titolo': [f'[PRO] {search_query} - Studio {i+1}' for i in range(10)],
+                    'Autori': [f'Research Team {i+1} et al.' for i in range(10)],
+                    'Journal': [f'Med Journal {i%3 + 1}' for i in range(10)],
+                    'Anno': [2023-i%4 for i in range(10)],
+                    'Citations': [np.random.randint(50, 500) for _ in range(10)],
+                    'DOI': [f'10.1234/journal.{1000+i}' for i in range(10)]
+                }
+                
+                df = pd.DataFrame(results_data)
+                st.dataframe(df, use_container_width=True)
+                
+                # Pro export options
+                st.markdown("### 💾 Opzioni Export Pro")
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    if st.button("📄 Export PDF"):
+                        st.success("Report PDF generato!")
+                with col2:
+                    if st.button("📊 Export Excel"):
+                        st.success("File Excel creato!")
+                with col3:
+                    if st.button("🔗 Export BibTeX"):
+                        st.success("Bibliografia generata!")
 
-    st.markdown('<h3 class="section-header">💡 Proposte di Progetto Principali</h3>', unsafe_allow_html=True)
+def render_predictive_medicine_page():
+    """Renders predictive medicine page with Pro protection for advanced features."""
+    st.markdown('<h2 class="section-header">🧠 Medicina Predittiva</h2>', unsafe_allow_html=True)
+    
+    user = SessionManager.get_current_user()
+    license_manager = LicenseManager()
+    is_pro_user = license_manager.validate_pro_access(user.id)
+    
+    if is_pro_user:
+        render_pro_predictive_medicine()
+    else:
+        render_basic_predictive_medicine()
+
+def render_basic_predictive_medicine():
+    """Basic predictive medicine for free users."""
+    st.warning("🆓 Versione gratuita - Modello base disponibile")
+    
+    st.markdown("### 💓 Calcolatore Rischio Cardiovascolare Base")
     
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("""
-        <div class="project-card">
-            <h4>Piattaforma IA per Diagnostica Rurale</h4>
-            <p>Sviluppo di una piattaforma IA centralizzata per supportare la diagnostica in aree rurali o con accesso limitato a specialisti, usando modelli federati per garantire la privacy dei dati.</p>
-            <ul>
-                <li><strong>Cluster</strong>: Salute, Digitale</li>
-                <li><strong>Obiettivo</strong>: Ridurre le disparità sanitarie</li>
-                <li><strong>Tecnologie</strong>: Federated Learning, AI, Cloud</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        age = st.number_input("Età", 20, 100, 45)
+        cholesterol = st.number_input("Colesterolo (mg/dL)", 100, 400, 200)
+    with col2:
+        blood_pressure = st.number_input("Pressione (mmHg)", 80, 200, 120)
+        smoker = st.radio("Fumatore", ["No", "Sì"])
+    
+    if st.button("🔍 Calcola (Base)"):
+        # Calcolo semplificato
+        risk = (age/100 + cholesterol/400 + blood_pressure/200) * (1.5 if smoker == "Sì" else 1.0) / 3
+        st.metric("Rischio Base", f"{risk:.2%}")
         
+        st.info("💎 Versione Pro: Modelli avanzati, fattori aggiuntivi, analisi genetica")
+
+@ProFeatureGuard.require_pro_feature('advanced_predictive')
+def render_pro_predictive_medicine():
+    """Advanced predictive medicine for Pro users."""
+    st.success("✅ Modelli Predittivi Pro Attivi")
+    
+    model_type = st.selectbox("Modello Predittivo:", [
+        "Rischio Cardiovascolare Avanzato",
+        "Predizione Diabete Multi-fattoriale", 
+        "Analisi Risposta Farmacologica",
+        "Screening Oncologico Predittivo"
+    ])
+    
+    if model_type == "Rischio Cardiovascolare Avanzato":
+        st.markdown("#### 🫀 Modello Pro - Fattori Multipli")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            age = st.slider("Età", 20, 100, 55)
+            weight = st.number_input("Peso (kg)", 40, 200, 75)
+            height = st.number_input("Altezza (cm)", 140, 220, 175)
+        
+        with col2:
+            cholesterol_total = st.number_input("Colesterolo Tot.", 100, 400, 220)
+            cholesterol_hdl = st.number_input("HDL", 20, 100, 45)
+            cholesterol_ldl = st.number_input("LDL", 50, 300, 130)
+        
+        with col3:
+            bp_systolic = st.number_input("Pressione Sist.", 80, 200, 140)
+            bp_diastolic = st.number_input("Pressione Diast.", 50, 120, 90)
+            glucose = st.number_input("Glicemia", 50, 200, 90)
+        
+        # Advanced factors
+        st.markdown("#### 🧬 Fattori Avanzati Pro")
+        col1, col2 = st.columns(2)
+        with col1:
+            family_history = st.multiselect("Storia Familiare:", ["Infarto", "Ictus", "Diabete"])
+            lifestyle = st.multiselect("Stile di Vita:", ["Fumatore", "Sedentario", "Stress Alto"])
+        with col2:
+            medications = st.multiselect("Farmaci:", ["ACE-inibitori", "Statine", "Beta-bloccanti"])
+            genetic_factors = st.multiselect("Fattori Genetici:", ["APOE ε4", "9p21", "LPA"])
+        
+        if st.button("⚡ Analisi Predittiva Pro", use_container_width=True):
+            with st.spinner("Modello AI Pro in elaborazione..."):
+                # Calcolo avanzato simulato
+                bmi = weight / ((height/100)**2)
+                risk_base = (age/100 + cholesterol_total/300 + bp_systolic/180) / 3
+                risk_adj = risk_base * (1 + len(family_history)*0.1 + len(lifestyle)*0.15)
+                
+                st.success("🎯 Analisi Pro completata!")
+                
+                col1, col2, col3, col4 = st.columns(4)
+                with col1:
+                    st.metric("Rischio 10 anni", f"{risk_adj:.1%}", delta="Alto" if risk_adj > 0.3 else "Moderato")
+                with col2:
+                    st.metric("BMI", f"{bmi:.1f}", delta="Normale" if 18.5 <= bmi <= 24.9 else "Attenzione")
+                with col3:
+                    st.metric("Ratio Colest.", f"{cholesterol_total/cholesterol_hdl:.1f}")
+                with col4:
+                    st.metric("Confidence", "94.7%")
+                
+                # Pro insights
+                st.markdown("#### 🔬 Insights Pro")
+                st.info(f"📊 Il modello ha analizzato {len(family_history) + len(lifestyle) + len(medications) + len(genetic_factors) + 9} parametri")
+                st.warning("⚠️ Raccomandazioni: Monitoraggio specialistico ogni 6 mesi")
+
+def render_clinical_trials_page():
+    """Clinical trials page with demo/Pro differentiation."""
+    st.markdown('<h2 class="section-header">🧪 Trial Clinici</h2>', unsafe_allow_html=True)
+    
+    user = SessionManager.get_current_user()
+    license_manager = LicenseManager()
+    is_pro_user = license_manager.validate_pro_access(user.id)
+    
+    if not is_pro_user:
+        st.info("🆓 Versione gratuita: Ricerca limitata nei trial pubblici")
+        
+        trial_query = st.text_input("Cerca trial (demo):", placeholder="cancer immunotherapy")
+        if st.button("🔍 Cerca Trial Demo"):
+            if trial_query:
+                st.success("Demo: Trovati 3 trial (Pro: 150+ risultati)")
+                demo_trials = pd.DataFrame({
+                    'Trial': [f'DEMO-{i+1}' for i in range(3)],
+                    'Fase': ['Fase II', 'Fase III', 'Fase I'],
+                    'Sponsor': ['Demo Pharma', 'Research Inc', 'MedTech Ltd'],
+                    'Stato': ['Recruiting', 'Active', 'Completed']
+                })
+                st.dataframe(demo_trials)
+                st.info("💎 Pro: Accesso completo, filtering avanzato, matching pazienti")
+    else:
+        render_pro_clinical_trials()
+
+@ProFeatureGuard.require_pro_feature('clinical_trials')
+def render_pro_clinical_trials():
+    """Pro clinical trials functionality."""
+    st.success("✅ Accesso Pro ai Trial Clinici")
+    
+    st.markdown("#### 🎯 Ricerca Avanzata Trial")
+    
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        condition = st.text_input("Condizione:", placeholder="breast cancer")
+        phase = st.multiselect("Fase:", ["Fase I", "Fase II", "Fase III", "Fase IV"])
+    with col2:
+        status = st.multiselect("Stato:", ["Recruiting", "Active", "Completed", "Suspended"])
+        sponsor_type = st.selectbox("Sponsor:", ["Tutti", "Pharma", "Accademic", "Government"])
+    with col3:
+        location = st.text_input("Località:", placeholder="Italy, Europe")
+        age_range = st.slider("Età:", 0, 100, (18, 65))
+    
+    if st.button("🔍 Ricerca Pro Completa"):
+        with st.spinner("Ricerca nei database globali..."):
+            st.success("✅ Trovati 247 trial corrispondenti")
+            
+            # Mock comprehensive results
+            trials_data = {
+                'NCT ID': [f'NCT{np.random.randint(10000000, 99999999)}' for _ in range(15)],
+                'Titolo': [f'Trial {condition} - Studio {i+1}' for i in range(15)],
+                'Fase': np.random.choice(phase if phase else ['Fase I', 'Fase II', 'Fase III'], 15),
+                'Sponsor': [f'Sponsor {i+1}' for i in range(15)],
+                'Locations': np.random.choice(['Milano', 'Roma', 'Torino', 'Multi-center'], 15),
+                'Enrollment': [np.random.randint(50, 1000) for _ in range(15)],
+                'Start Date': [f'2023-{np.random.randint(1,12):02d}-01' for _ in range(15)]
+            }
+            
+            df_trials = pd.DataFrame(trials_data)
+            st.dataframe(df_trials, use_container_width=True)
+            
+            # Pro tools
+            st.markdown("#### 🛠️ Strumenti Pro")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                if st.button("👥 Patient Matching"):
+                    st.success("Matching AI: 23 pazienti compatibili trovati")
+            with col2:
+                if st.button("📊 Export Dettagliato"):
+                    st.success("Report completo generato!")
+            with col3:
+                if st.button("📧 Alert Setup"):
+                    st.success("Alert configurati per nuovi trial!")
+
+def render_pro_features_page():
+    """Page showcasing Pro features and upgrade options."""
+    st.markdown('<h2 class="section-header">💎 Funzionalità Pro</h2>', unsafe_allow_html=True)
+    
+    user = SessionManager.get_current_user()
+    license_manager = LicenseManager()
+    is_pro_user = license_manager.validate_pro_access(user.id)
+    
+    if is_pro_user:
+        st.success("✨ Sei già un utente Pro! Grazie per il supporto.")
+        render_pro_management_panel()
+    else:
+        show_upgrade_info()
+        st.markdown("---")
+        demo_pro_features()
+
+def render_pro_management_panel():
+    """Management panel for Pro users."""
+    st.markdown("### ⚙️ Pannello Gestione Pro")
+    
+    # Pro user stats
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.metric("✨ Status", "PRO ATTIVO")
+    with col2:
+        st.metric("📅 Scadenza", "30 giorni")
+    with col3:
+        st.metric("🔥 Utilizzo", "847 analisi")
+    
+    # Pro features usage
+    st.markdown("### 📊 Utilizzo Funzionalità Pro")
+    
+    usage_data = pd.DataFrame({
+        'Funzionalità': ['Database Completi', 'IA Avanzata', 'Export Report', 'API Access'],
+        'Utilizzi': [156, 89, 34, 12],
+        'Limite': ['∞', '∞', '∞', '∞']
+    })
+    
+    st.dataframe(usage_data, use_container_width=True)
+    
+    # Pro settings
+    st.markdown("### ⚙️ Impostazioni Pro")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        auto_export = st.checkbox("Export automatico risultati", value=True)
+        email_reports = st.checkbox("Report email settimanali", value=False)
+    with col2:
+        api_notifications = st.checkbox("Notifiche API", value=True)
+        priority_support = st.checkbox("Supporto prioritario", value=True)
+    
+    if st.button("💾 Salva Impostazioni Pro"):
+        st.success("✅ Impostazioni Pro salvate!")
+
+def render_about_page():
+    """About page with professional information."""
+    st.markdown('<h2 class="section-header">👨‍💻 Chi Sono</h2>', unsafe_allow_html=True)
+    
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        st.markdown("<div style='text-align:center; font-size: 8rem;'>👨‍💻</div>", unsafe_allow_html=True)
+        st.markdown("<h3 style='text-align: center;'>Antonino Piacenza</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #2e7d32;'>AI Research & MedTech Developer</p>", unsafe_allow_html=True)
+    
     with col2:
         st.markdown("""
-        <div class="project-card">
-            <h4>IA per la Medicina di Precisione</h4>
-            <p>Creazione di modelli predittivi per personalizzare le terapie oncologiche, analizzando dati genomici, clinici e di imaging per identificare i trattamenti più efficaci per ciascun paziente.</p>
-            <ul>
-                <li><strong>Cluster</strong>: Salute</li>
-                <li><strong>Obiettivo</strong>: Migliorare l'efficacia delle cure</li>
-                <li><strong>Tecnologie</strong>: Deep Learning, Big Data</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        ### 🎯 Missione
+        Sviluppare soluzioni di Intelligenza Artificiale innovative, etiche e accessibili per rivoluzionare 
+        la medicina e migliorare la qualità delle cure globali.
+        
+        ### 🔬 Specializzazioni
+        - **🤖 AI/ML in Medicina**: Modelli predittivi e di classificazione per applicazioni cliniche
+        - **🧬 Genomica Computazionale**: Analisi di dati genetici e medicina personalizzata  
+        - **📊 Medical Data Science**: Big data analytics e integrazione di database eterogenei
+        - **🏥 Digital Health**: Piattaforme per telemedicina e monitoraggio remoto
+        
+        ### 🚀 Progetti Attuali
+        - Nino Medical AI Pro: Piattaforma integrata per ricerca medica
+        - Partnership con ospedali per validazione clinica
+        - Ricerca su federated learning per privacy dei dati medici
+        
+        ### 📞 Contatti & Collaborazioni
+        - **Email**: ninomedical.ai@gmail.com
+        - **LinkedIn**: linkedin.com/in/antoninopiacenza
+        - **Portfolio**: antonino-piacenza-portfolio.streamlit.app
+        
+        💡 *Aperto a collaborazioni per progetti Horizon Europe e partnership industriali*
+        """)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown('<h3 class="section-header">🎯 Ambiti di Interesse e Competenza</h3>', unsafe_allow_html=True)
+def render_footer():
+    """Application footer."""
     st.markdown("""
-    - **Cluster 1: Health**
-        - Staying healthy in a rapidly changing society
-        - Tackling diseases and reducing disease burden
-        - Unlocking the full potential of new tools, technologies and digital solutions for a healthy society
-    
-    - **Cluster 4: Digital, Industry and Space**
-        - A data-driven economy
-        - Artificial Intelligence and Robotics
-        - Next Generation Internet
-    
-    - **Mission: Cancer**
-        - Conquering cancer: mission possible
-    """)
+    <div class="footer">
+        <p>© 2025 Nino Medical AI - Sviluppato da Antonino Piacenza</p>
+        <p>🔬 Versione 2.0 Pro | 📧 ninomedical.ai@gmail.com | 🌐 antonino-piacenza-portfolio.streamlit.app</p>
+        <p><em>Software per ricerca e dimostrazione. Non per uso clinico diretto.</em></p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.markdown('<h3 class="section-header">🤝 Cerco Partner per Consorzi</h3>', unsafe_allow_html=True)
-    st.success("""
-    Sono attivamente alla ricerca di partner per formare consorzi e presentare proposte per le prossime call di Horizon Europe.
-    
-    **Chi cerco:**
-    - **Università e Centri di Ricerca**: per validazione scientifica e ricerca di base.
-    - **Ospedali e Strutture Sanitarie**: per l'accesso ai dati e la validazione clinica.
-    - **Aziende e PMI Innovative**: per lo sviluppo, la commercializzazione e l'integrazione di soluzioni.
-    - **Esperti di Regolamentazione**: per garantire la conformità normativa dei dispositivi medici basati su IA.
-    
-    Se sei interessato a collaborare, contattami per discutere di possibili sinergie.
-    """)
-
-# Footer
-st.markdown("---")
-st.markdown("""
-<div style='text-align: center; color: #666; padding: 2rem;'>
-    <p>© 2025 Antonino Piacenza - Ricercatore IA</p>
-    <p>Nino Medical AI - Piattaforma realizzata con Streamlit 🚀</p>
-</div>
-""", unsafe_allow_html=True)
-
+# --- Entry Point ---
 if __name__ == "__main__":
     main()

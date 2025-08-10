@@ -1,0 +1,30 @@
+# Nino Medical AI Pro Ultimate - Requirements
+# Ottimizzato per Python 3.11.7 con Anaconda
+
+# Core Dependencies
+streamlit>=1.28.0
+pandas>=1.5.0
+numpy>=1.24.0
+plotly>=5.15.0
+pillow>=9.0.0
+
+# Data Processing
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# Performance & Caching
+diskcache>=5.6.0
+
+# Utilities
+python-dotenv>=1.0.0
+psutil>=5.9.0
+
+# Build Dependencies per PyInstaller
+pyinstaller>=5.13.0
+
+# Medical Imaging (solo per versione imaging)
+# opencv-python>=4.8.0  # Decommenta per versione imaging
+# scikit-image>=0.21.0  # Decommenta per versione imaging
+
+# Note: La versione senza imaging non include opencv e librerie di image processing
+# per ridurre le dimensioni del build e migliorare le performance

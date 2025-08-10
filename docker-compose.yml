@@ -1,0 +1,156 @@
+# Nino Medical AI Pro - Docker Compose
+# Deploy completo con servizi integrati
+
+version: '3.8'
+
+services:
+  # Applicazione principale Nino Medical AI
+  nino-medical-ai:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: nino-medical-ai-pro
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+      - STREAMLIT_THEME_BASE=light
+      - PYTHONPATH=/app
+      - TZ=Europe/Rome
+    volumes:
+      # Monta directory per persistenza dati
+      - ./cache:/app/cache
+      - ./auth:/app/auth
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./exports:/app/exports
+    networks:
+      - nino-medical-network
+    depends_on:
+      - redis-cache
+      - postgres-db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nino-medical.rule=Host(`ninomedical.local`)"
+      - "traefik.http.services.nino-medical.loadbalancer.server.port=8501"
+
+  # Cache Redis per performance
+  redis-cache:
+    image: redis:7.2.4-alpine
+    container_name: nino-medical-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - nino-medical-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Database PostgreSQL per dati strutturati
+  postgres-db:
+    image: postgres:16.1-alpine
+    container_name: nino-medical-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=ninomedical
+      - POSTGRES_USER=ninomed_user
+      - POSTGRES_PASSWORD=secure_password_2024
+      - POSTGRES_INITDB_ARGS="--encoding=UTF8 --locale=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db:/docker-entrypoint-initdb.d:ro
+    networks:
+      - nino-medical-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ninomed_user -d ninomedical"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Nginx Reverse Proxy (opzionale)
+  nginx-proxy:
+    image: nginx:1.25.3-alpine
+    container_name: nino-medical-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    networks:
+      - nino-medical-network
+    depends_on:
+      - nino-medical-ai
+    profiles:
+      - production
+
+  # Monitoring con Prometheus (opzionale)
+  prometheus:
+    image: prom/prometheus:v2.48.0
+    container_name: nino-medical-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    networks:
+      - nino-medical-network
+    profiles:
+      - monitoring
+
+  # Grafana per visualizzazione metriche (opzionale)
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: nino-medical-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123!
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - nino-medical-network
+    profiles:
+      - monitoring
+
+# Rete personalizzata
+networks:
+  nino-medical-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# Volumi persistenti
+volumes:
+  redis-data:
+    driver: local
+  postgres-data:
+    driver: local
+  prometheus-data:
+    driver: local
+  grafana-data:
+    driver: local
