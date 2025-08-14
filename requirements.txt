@@ -38,6 +38,17 @@ python-dotenv>=1.0.0
 loguru>=0.7.0
 rich>=13.0.0
 psutil>=5.9.0
+yfinance>=0.2.0
+
+# Google Analytics Dependencies
+requests>=2.25.0  # For HTTP requests to GA4 Measurement Protocol
+urllib3>=1.26.0   # URL handling
+json5>=0.9.0      # Enhanced JSON handling
+typing-extensions>=4.0.0  # Type hints support
+
+# Additional Data Visualization
+altair>=5.0.0     # Alternative charting for Streamlit
+streamlit-analytics>=0.4.0  # Additional analytics features (optional)
 
 # Build Dependencies
 pyinstaller>=5.13.0

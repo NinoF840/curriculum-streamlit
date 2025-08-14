@@ -55,5 +55,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    distpath='D:/Nino Medical AI Pro Versions',
+    distpath='C:/Users/nino1/Desktop/Nino Medical AI Pro Versions',
 )

@@ -15,10 +15,11 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 from PIL import Image
 import base64
 import sys
+import time
 from pathlib import Path
 
 # Importa moduli di autenticazione e licensing
@@ -29,6 +30,22 @@ except ImportError as e:
     st.error(f"⚠️ Errore importazione moduli: {e}")
     st.stop()
 
+# Importa moduli Google Analytics
+try:
+    from google_analytics import GoogleAnalytics, get_analytics, inject_analytics_script, track_visitor, track_comment, track_purchase
+    from analytics_config import AnalyticsSettings, get_analytics_config, validate_config
+    ANALYTICS_AVAILABLE = True
+    
+    # Importa moduli Engagement
+    from engagement_tracker import get_engagement_tracker, track_page_engagement, show_engagement_badge
+    from engaged_visitors_dashboard import render_engaged_visitors_dashboard
+    ENGAGEMENT_TRACKER_AVAILABLE = True
+    
+except ImportError as e:
+    print(f"⚠️ Google Analytics non disponibile: {e}")
+    ANALYTICS_AVAILABLE = False
+    ENGAGEMENT_TRACKER_AVAILABLE = False
+
 # --- Page Configuration ---
 st.set_page_config(
     page_title="Nino Medical AI",
@@ -36,6 +53,27 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# --- Google Analytics Initialization ---
+if ANALYTICS_AVAILABLE:
+    # Inietta script Google Analytics
+    inject_analytics_script(AnalyticsSettings.GA4_MEASUREMENT_ID)
+    
+    # Inizializza sessione analytics se non presente
+    if 'session_start_time' not in st.session_state:
+        st.session_state.session_start_time = datetime.now()
+        st.session_state.page_views = 0
+        st.session_state.session_id = str(int(time.time()))
+        
+        # Inizializza engagement tracker
+        if ENGAGEMENT_TRACKER_AVAILABLE:
+            get_engagement_tracker()
+        
+        # Traccia inizio sessione
+        analytics = get_analytics()
+        analytics.track_event('session_start', {
+            'timestamp': st.session_state.session_start_time.isoformat()
+        })
 
 # --- Custom CSS ---
 st.markdown("""
@@ -118,10 +156,20 @@ def main():
         return
     
     # Authenticated user interface
+    # Mostra engagement badge se applicabile
+    if ENGAGEMENT_TRACKER_AVAILABLE:
+        show_engagement_badge()
+    
     render_authenticated_app()
 
 def render_welcome_page():
     """Renders welcome page with login and demo."""
+    # Track page view
+    if ANALYTICS_AVAILABLE:
+        analytics = get_analytics()
+        analytics.track_page_view('/welcome', 'Welcome - Nino Medical AI')
+        st.session_state.page_views += 1
+    
     st.markdown('<h1 class="main-header">🏥 Nino Medical AI</h1>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Intelligenza Artificiale per la Medicina del Futuro</p>', unsafe_allow_html=True)
     
@@ -167,6 +215,11 @@ def render_free_demo():
         
         if st.button("🔍 Cerca (Demo)"):
             if demo_query:
+                # Track demo search
+                if ANALYTICS_AVAILABLE:
+                    analytics = get_analytics()
+                    analytics.track_search_query(demo_query, 'demo', 5)
+                
                 with st.spinner("Ricerca demo in corso..."):
                     # Simulazione risultati limitati
                     st.success("Demo: Trovati 5 risultati (versione Pro: 500+ risultati)")
@@ -192,6 +245,11 @@ def render_free_demo():
             st.image(uploaded_file, caption="Immagine caricata - Demo", width=300)
             
             if st.button("⚡ Analizza (Demo)"):
+                # Track demo AI analysis
+                if ANALYTICS_AVAILABLE:
+                    analytics = get_analytics()
+                    analytics.track_ai_analysis('demo_image_analysis', confidence_score=0.85)
+                
                 with st.spinner("Analisi demo in corso..."):
                     # Simulazione analisi limitata
                     st.success("✅ Analisi completata (modalità demo)")
@@ -226,6 +284,10 @@ def render_authenticated_app():
         render_user_profile()
     elif page == 'admin':
         render_admin_panel()
+    elif page == 'analytics':
+        render_analytics_page()
+    elif page == 'engagement':
+        render_engagement_page()
     elif page == 'about':
         render_about_page()
     
@@ -256,6 +318,13 @@ def render_sidebar():
             else:
                 st.markdown("🆓 **Utente Gratuito**")
                 if st.button("💎 Upgrade to Pro", key="sidebar_upgrade", use_container_width=True):
+                    # Track upgrade button click
+                    if ANALYTICS_AVAILABLE:
+                        analytics = get_analytics()
+                        analytics.track_event('upgrade_view', {
+                            'source': 'sidebar',
+                            'user_tier': 'free'
+                        })
                     st.session_state.current_page = 'pro_features'
                     st.rerun()
         
@@ -276,9 +345,15 @@ def render_sidebar():
         # Add admin option for admin users
         if user and user.role == UserRole.ADMIN:
             nav_buttons["⚙️ Admin Panel"] = "admin"
+            nav_buttons["📊 Analytics"] = "analytics"
+            nav_buttons["🔥 Engagement"] = "engagement"
         
         for label, page_key in nav_buttons.items():
             if st.button(label, key=f"nav_{page_key}", use_container_width=True):
+                # Track navigation
+                if ANALYTICS_AVAILABLE:
+                    analytics = get_analytics()
+                    analytics.track_page_view(f'/{page_key}', f'{label} - Nino Medical AI')
                 st.session_state.current_page = page_key
                 st.rerun()
         
@@ -300,6 +375,12 @@ def render_main_dashboard():
     user = SessionManager.get_current_user()
     license_manager = LicenseManager()
     is_pro_user = license_manager.validate_pro_access(user.id)
+    
+    # Track dashboard access
+    if ANALYTICS_AVAILABLE:
+        analytics = get_analytics()
+        analytics.track_page_view('/dashboard', 'Dashboard - Nino Medical AI')
+        st.session_state.page_views += 1
     
     st.markdown('<h1 class="main-header">🏥 Dashboard Principale</h1>', unsafe_allow_html=True)
     
@@ -408,6 +489,12 @@ def render_medical_databases_page():
     
     if st.button("🔍 Ricerca Avanzata", use_container_width=True):
         if search_query:
+            # Track Pro database search
+            if ANALYTICS_AVAILABLE:
+                analytics = get_analytics()
+                analytics.track_search_query(search_query, selected_db, max_results)
+                analytics.track_pro_feature_usage('database_search')
+            
             with st.spinner(f"Ricerca su {selected_db}..."):
                 # Simulazione ricerca Pro
                 st.success(f"✅ Trovati {max_results} risultati in {selected_db}")
@@ -430,12 +517,21 @@ def render_medical_databases_page():
                 col1, col2, col3 = st.columns(3)
                 with col1:
                     if st.button("📄 Export PDF"):
+                        if ANALYTICS_AVAILABLE:
+                            analytics = get_analytics()
+                            analytics.track_export_action('PDF', 'medical_research')
                         st.success("Report PDF generato!")
                 with col2:
                     if st.button("📊 Export Excel"):
+                        if ANALYTICS_AVAILABLE:
+                            analytics = get_analytics()
+                            analytics.track_export_action('Excel', 'medical_research')
                         st.success("File Excel creato!")
                 with col3:
                     if st.button("🔗 Export BibTeX"):
+                        if ANALYTICS_AVAILABLE:
+                            analytics = get_analytics()
+                            analytics.track_export_action('BibTeX', 'medical_research')
                         st.success("Bibliografia generata!")
 
 def render_predictive_medicine_page():
@@ -466,6 +562,11 @@ def render_basic_predictive_medicine():
         smoker = st.radio("Fumatore", ["No", "Sì"])
     
     if st.button("🔍 Calcola (Base)"):
+        # Track basic prediction usage
+        if ANALYTICS_AVAILABLE:
+            analytics = get_analytics()
+            analytics.track_ai_analysis('cardiovascular_risk_basic', confidence_score=0.75)
+        
         # Calcolo semplificato
         risk = (age/100 + cholesterol/400 + blood_pressure/200) * (1.5 if smoker == "Sì" else 1.0) / 3
         st.metric("Rischio Base", f"{risk:.2%}")
@@ -514,6 +615,12 @@ def render_pro_predictive_medicine():
             genetic_factors = st.multiselect("Fattori Genetici:", ["APOE ε4", "9p21", "LPA"])
         
         if st.button("⚡ Analisi Predittiva Pro", use_container_width=True):
+            # Track Pro prediction usage
+            if ANALYTICS_AVAILABLE:
+                start_time = time.time()
+                analytics = get_analytics()
+                analytics.track_pro_feature_usage('advanced_prediction')
+            
             with st.spinner("Modello AI Pro in elaborazione..."):
                 # Calcolo avanzato simulato
                 bmi = weight / ((height/100)**2)
@@ -698,13 +805,143 @@ def render_about_page():
         
         ### 📞 Contatti & Collaborazioni
         - **Email**: ninomedical.ai@gmail.com
-        - **LinkedIn**: linkedin.com/in/antoninopiacenza
+        - **LinkedIn**: linkedin.com/in/antoNinoF840
         - **Portfolio**: antonino-piacenza-portfolio.streamlit.app
         
         💡 *Aperto a collaborazioni per progetti Horizon Europe e partnership industriali*
         """)
     
     st.markdown('</div>', unsafe_allow_html=True)
+
+def render_analytics_page():
+    """Renders analytics page for admin users only."""
+    user = SessionManager.get_current_user()
+    
+    # Check admin access
+    if not user or user.role != UserRole.ADMIN:
+        st.error("❌ Accesso negato. Solo amministratori possono visualizzare le analytics.")
+        return
+    
+    # Import analytics dashboard
+    try:
+        from analytics_dashboard import render_analytics_dashboard, render_analytics_setup_guide
+        
+        # Track analytics page view
+        if ANALYTICS_AVAILABLE:
+            analytics = get_analytics()
+            analytics.track_page_view('/admin/analytics', 'Admin Analytics Dashboard')
+        
+        # Render dashboard tabs
+        tab1, tab2, tab3 = st.tabs(["📊 Dashboard", "💬 Feedback Form", "⚙️ Setup"])
+        
+        with tab1:
+            render_analytics_dashboard()
+        
+        with tab2:
+            render_feedback_collection()
+            
+        with tab3:
+            render_analytics_setup_guide()
+            
+    except ImportError as e:
+        st.error(f"⚠️ Modulo analytics dashboard non disponibile: {e}")
+        st.info("📋 Assicurati che analytics_dashboard.py sia presente nel progetto.")
+
+def render_feedback_collection():
+    """Renders feedback collection interface for tracking comments."""
+    st.markdown("### 💬 Raccolta Feedback e Commenti")
+    
+    st.info("📝 Utilizza questo modulo per raccogliere feedback dagli utenti e tracciarlo con Google Analytics.")
+    
+    # Feedback form
+    with st.form("feedback_form"):
+        st.markdown("#### ✍️ Lascia il tuo Feedback")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            feedback_type = st.selectbox("Tipo di Feedback:", [
+                "Generale", "Bug Report", "Feature Request", "Esperienza Utente", "Performance"
+            ])
+            
+            rating = st.slider("Valutazione (1-5 stelle):", 1, 5, 4)
+            
+        with col2:
+            user_type = st.selectbox("Sei un:", [
+                "Medico", "Ricercatore", "Studente", "Paziente", "Sviluppatore", "Altro"
+            ])
+            
+            would_recommend = st.radio("Consiglieresti l'app?", ["Sì", "No", "Forse"])
+        
+        feedback_text = st.text_area("Il tuo feedback:", 
+                                    placeholder="Descrivi la tua esperienza, suggerimenti o problemi...")
+        
+        contact_email = st.text_input("Email (opzionale):", 
+                                     placeholder="per eventuali follow-up")
+        
+        submitted = st.form_submit_button("📤 Invia Feedback")
+        
+        if submitted:
+            if feedback_text.strip():
+                # Track comment submission
+                if ANALYTICS_AVAILABLE:
+                    analytics = get_analytics()
+                    analytics.track_comment_submission(
+                        comment_type=feedback_type.lower().replace(' ', '_'),
+                        rating=rating
+                    )
+                    
+                    # Track additional feedback metrics
+                    analytics.track_event('feedback_detailed', {
+                        'feedback_type': feedback_type,
+                        'user_type': user_type,
+                        'rating': rating,
+                        'would_recommend': would_recommend,
+                        'has_contact': bool(contact_email.strip()),
+                        'text_length': len(feedback_text)
+                    })
+                
+                st.success("✅ Grazie per il tuo feedback! È stato registrato con successo.")
+                
+                # Display summary
+                st.markdown("#### 📊 Riepilogo Feedback")
+                feedback_summary = pd.DataFrame({
+                    'Campo': ['Tipo', 'Valutazione', 'Utente', 'Raccomandazione', 'Contatto'],
+                    'Valore': [feedback_type, f"{rating}/5 ⭐", user_type, would_recommend, 
+                              '✅' if contact_email.strip() else '❌']
+                })
+                st.dataframe(feedback_summary, use_container_width=True)
+            else:
+                st.warning("⚠️ Per favore, inserisci il tuo feedback prima di inviare.")
+    
+    # Recent feedback stats (mock)
+    st.markdown("---")
+    st.markdown("### 📈 Statistiche Feedback Recenti")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("💬 Feedback Totali", np.random.randint(45, 120), delta=f"+{np.random.randint(2, 8)}")
+    with col2:
+        st.metric("⭐ Rating Medio", f"{np.random.uniform(3.8, 4.7):.1f}/5", delta=f"+{np.random.uniform(0.1, 0.3):.1f}")
+    with col3:
+        st.metric("👍 Raccomandazioni", f"{np.random.randint(75, 95)}%", delta=f"+{np.random.randint(2, 8)}%")
+    with col4:
+        st.metric("🐛 Bug Reports", np.random.randint(3, 12), delta=f"-{np.random.randint(1, 4)}")
+
+def render_engagement_page():
+    """Renders engaged visitors page for admin users only."""
+    user = SessionManager.get_current_user()
+    
+    # Check admin access
+    if not user or user.role != UserRole.ADMIN:
+        st.error("❌ Accesso negato. Solo amministratori possono visualizzare il dashboard engagement.")
+        return
+    
+    if ENGAGEMENT_TRACKER_AVAILABLE:
+        render_engaged_visitors_dashboard()
+    else:
+        st.error("⚠️ Modulo Engaged Visitors Dashboard non disponibile.")
 
 def render_footer():
     """Application footer."""

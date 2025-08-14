@@ -59,5 +59,5 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon='assets/nino_medical_ai_icon.ico' if os.path.exists('assets/nino_medical_ai_icon.ico') else None,
-    distpath='D:/Nino Medical AI Pro Versions',
+    distpath='C:/Users/nino1/Desktop/Nino Medical AI Pro Versions',
 )

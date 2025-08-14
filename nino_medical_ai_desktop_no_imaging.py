@@ -1028,7 +1028,7 @@ SPECIALIZZAZIONI:
 
 CONTATTI:
 • Email: ninomedical.ai@gmail.com
-• LinkedIn: linkedin.com/in/antoninopiacenza
+• LinkedIn: linkedin.com/in/antoNinoF840
 • Progetti: Aperto a collaborazioni Horizon Europe"""
         
         description_label = tk.Label(
@@ -1061,7 +1061,7 @@ CONTATTI:
         linkedin_btn = tk.Button(
             footer_frame,
             text="🔗 LinkedIn Profile",
-            command=lambda: messagebox.showinfo("LinkedIn", "Apri: linkedin.com/in/antoninopiacenza"),
+            command=lambda: messagebox.showinfo("LinkedIn", "Apri: linkedin.com/in/antoNinoF840"),
             font=('Arial', 11),
             bg='#0077b5',
             fg='white',

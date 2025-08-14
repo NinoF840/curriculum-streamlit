@@ -9,65 +9,125 @@ from PIL import Image
 import base64
 
 # --- Page Configuration ---
-st.set_page_config(
-    page_title="Nino Medical AI Pro Ultimate",
-    page_icon="🏥",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# st.set_page_config() rimosso per compatibilità
 
-# --- Custom CSS ---
+# --- Enhanced Custom CSS ---
 st.markdown("""
 <style>
-    /* General Styles */
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* Global Background */
+    .main {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    /* Enhanced Headers */
     .main-header {
-        font-size: 3rem;
-        color: #1f4e79;
+        font-family: 'Inter', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #1f4e79, #2e7d32, #e65100);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
-        margin-bottom: 0.5rem;
-        font-weight: bold;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease-out;
     }
     .sub-header {
-        font-size: 1.5rem;
-        color: #2e7d32;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.3rem;
+        color: #ffffff;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease-out 0.2s both;
     }
     .section-header {
-        font-size: 2rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 600;
         color: #1f4e79;
         border-bottom: 3px solid #1f4e79;
-        padding-bottom: 0.5rem;
-        margin-top: 2.5rem;
-        margin-bottom: 1.5rem;
-        font-weight: bold;
+        padding-bottom: 0.8rem;
+        margin: 2.5rem 0 1.5rem 0;
     }
+    
+    /* Enhanced Cards with Glass Morphism */
     .card {
-        background-color: #ffffff;
-        padding: 1.5rem;
-        border-radius: 10px;
-        margin-bottom: 1rem;
-        border: 1px solid #e0e0e0;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
     }
     .card:hover {
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-        transform: translateY(-5px);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     }
+    
+    /* Glass Metrics */
     .metric-card {
-        background-color: #f9f9f9;
-        padding: 1rem;
-        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 16px;
+        padding: 1.5rem;
         text-align: center;
-        border: 1px solid #e0e0e0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        color: white;
+        margin: 0.5rem;
     }
+    .metric-card:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-4px);
+    }
+    
+    /* Status Badges */
+    .status-active {
+        display: inline-block;
+        background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin: 0.2rem;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Charts Enhancement */
+    .plotly-graph-div {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1rem;
+    }
+    
+    /* Enhanced Footer */
     .footer {
+        background: linear-gradient(45deg, #1f4e79, #2e7d32);
+        color: white;
         text-align: center;
-        color: #666;
         padding: 2rem;
         margin-top: 4rem;
-        border-top: 1px solid #e0e0e0;
+        border-radius: 20px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -125,11 +185,11 @@ def render_sidebar():
 def render_main_dashboard():
     """Renders the main dashboard page."""
     st.markdown('<h1 class="main-header">Nino Medical AI Pro Ultimate</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">La Piattaforma Integrata per la Ricerca e l'Innovazione Medica</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">La Piattaforma Integrata per la Ricerca e l\'Innovazione Medica</p>', unsafe_allow_html=True)
     
     st.markdown('<div class="card" style="background: linear-gradient(135deg, #1f4e79 0%, #2e7d32 100%); color: white; text-align: center;">'
                 '<h2>🚀 Benvenuto nella versione Ultimate</h2>'
-                '<p>Questa versione integra strumenti avanzati per l'analisi di dati medici, la medicina predittiva e la gestione di trial clinici, escludendo le funzionalità di imaging per una maggiore efficienza.</p>'
+                '<p>Questa versione integra strumenti avanzati per l\'analisi di dati medici, la medicina predittiva e la gestione di trial clinici, escludendo le funzionalità di imaging per una maggiore efficienza.</p>'
                 '</div>', unsafe_allow_html=True)
 
     st.markdown('<h2 class="section-header">Panoramica del Sistema</h2>', unsafe_allow_html=True)
@@ -632,7 +692,7 @@ def render_about_page():
 
         ### Contatti per Collaborazioni
         - **Email**: `ninomedical.ai@gmail.com`
-        - **LinkedIn**: `linkedin.com/in/antoninopiacenza`
+        - **LinkedIn**: `linkedin.com/in/antoNinoF840`
         - **Progetti**: Aperto a collaborazioni per Horizon Europe e partnership industriali.
         """)
     st.markdown('</div>', unsafe_allow_html=True)

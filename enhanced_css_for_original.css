@@ -1,0 +1,146 @@
+/* CSS MIGLIORATO PER NINO MEDICAL AI */
+/* Da sostituire nella sezione st.markdown() del tuo file originale */
+
+<style>
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    /* GRADIENTI DI BACKGROUND */
+    .main {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+    }
+    
+    /* HEADERS MIGLIORATI */
+    .main-header {
+        font-family: 'Inter', sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #1f4e79, #2e7d32, #e65100);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 1rem;
+        animation: fadeInUp 1s ease-out;
+    }
+    
+    .sub-header {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.3rem;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 3rem;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease-out 0.2s both;
+    }
+    
+    .section-header {
+        font-family: 'Inter', sans-serif;
+        font-size: 2.2rem;
+        font-weight: 600;
+        color: #1f4e79;
+        border-bottom: 3px solid #1f4e79;
+        padding-bottom: 0.8rem;
+        margin: 2.5rem 0 1.5rem 0;
+    }
+    
+    /* CARDS CON GLASS MORPHISM */
+    .enhanced-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+    }
+    
+    .enhanced-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* GLASS METRICS */
+    .glass-metric {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(15px);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        margin: 0.5rem;
+        color: white;
+    }
+    
+    .glass-metric:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-4px);
+    }
+    
+    /* STATUS BADGES */
+    .status-active {
+        display: inline-block;
+        background: linear-gradient(45deg, #4CAF50, #8BC34A);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin: 0.2rem;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .status-warning {
+        background: linear-gradient(45deg, #FF9800, #FFC107);
+        color: white;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-weight: 600;
+        margin: 0.2rem;
+    }
+    
+    /* ANIMAZIONI */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* ENHANCED SIDEBAR */
+    .css-1d391kg {
+        background: linear-gradient(180deg, #1f4e79 0%, #2e7d32 100%);
+    }
+    
+    /* PROGRESS BARS ANIMATE */
+    .progress-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 0.5rem 0;
+    }
+    
+    /* CHARTS STYLING */
+    .plotly-graph-div {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 1rem;
+    }
+    
+    /* FOOTER */
+    .enhanced-footer {
+        background: linear-gradient(45deg, #1f4e79, #2e7d32);
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        margin-top: 4rem;
+        border-radius: 20px;
+    }
+</style>

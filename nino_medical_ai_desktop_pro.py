@@ -349,9 +349,9 @@ Sono sempre alla ricerca di nuove opportunità di collaborazione:
 
 • Email Personale: nino58150@gmail.com
 • Email Professionale: ninomedical.ai@gmail.com
-• LinkedIn: linkedin.com/in/antoninopiacenza
+• LinkedIn: linkedin.com/in/antoNinoF840
 • WhatsApp/Telefono: +39 393 678 9529
-• GitHub: github.com/ninopiacenza
+• GitHub: github.com/NinoF840
 
 📋 RICHIESTA INFORMAZIONI
 
