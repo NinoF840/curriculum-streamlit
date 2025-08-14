@@ -11,18 +11,37 @@
 
 Piattaforma **open source** di ricerca e sviluppo dedicata a soluzioni di Intelligenza Artificiale per il settore medico-sanitario. 
 
-🚀 **41 cloni** e **32 sviluppatori** hanno già scaricato il progetto!
+🚀 **24 cloni** e **22 sviluppatori unici** hanno già scaricato il progetto!
 
 ---
 
-## 🌟 **Aiutaci a Crescere!**
+## 🌟 **Aiutaci a Crescere la Community Medical AI!**
 
-**Ti piace il progetto?** 
-- ⭐ **Lascia una stella** se trovi utile Nino Medical AI!
-- 🐛 **Segnala bug** utilizzando i nostri [Issue Templates](https://github.com/NinoF840/curriculum-streamlit/issues/new/choose)
-- 💡 **Proponi nuove funzionalità** per migliorare la piattaforma
-- 🩺 **Condividi feedback medico-scientifico** - il tuo expertise è prezioso!
-- 🤝 **Contribuisci** seguendo la [Guida Contributi](CONTRIBUTING.md)
+### 👥 **Presentati alla Community**
+Hai clonato il progetto? **Facci sapere chi sei!**
+- 🌟 **[Metti una stella](https://github.com/NinoF840/curriculum-streamlit/stargazers)** se il progetto ti piace - **Sii il primo!**
+- 👋 **[Presentati qui](https://github.com/NinoF840/curriculum-streamlit/issues/new?template=presentation.md)** - vogliamo conoscerti!
+- 💼 **Collegati su LinkedIn**: [Antonino Piacenza](https://linkedin.com/in/antonino-piacenza)
+- 💬 **Unisciti alle [Discussioni](https://github.com/NinoF840/curriculum-streamlit/discussions)** per condividere idee
+
+### 🏆 **Hall of Fame - Primi Contributori**
+I primi 10 sviluppatori a contribuire riceveranno:
+- ⭐ **Medical AI Pioneer Badge**
+- 📧 **Riconoscimento LinkedIn pubblico**  
+- 🎖️ **Sezione dedicata nel README**
+- 💌 **Accesso anticipato alle nuove features**
+
+### 🤝 **Come Contribuire**
+| Tipo Contributo | Come Aiutare | Premio |
+|------------------|--------------|--------|
+| 🌟 **Prima Stella** | [Clicca qui](https://github.com/NinoF840/curriculum-streamlit/stargazers) | **Pioneer Badge** |
+| 👋 **Presentazione** | [Presentati qui](https://github.com/NinoF840/curriculum-streamlit/issues/new?template=presentation.md) | Community Member |
+| 🐛 **Bug Report** | [Segnala qui](https://github.com/NinoF840/curriculum-streamlit/issues/new/choose) | Bug Hunter Badge |
+| 💡 **Feature Idea** | [Proponi qui](https://github.com/NinoF840/curriculum-streamlit/issues/new/choose) | Innovator Badge |
+| 🩺 **Feedback Medico** | Condividi la tua expertise | Medical Advisor Badge |
+
+### 📧 **Resta Aggiornato**
+**Newsletter Medical AI:** [📬 Iscriviti](mailto:ninomedical.ai@gmail.com?subject=Newsletter%20Medical%20AI&body=Nome:%20%0ASpecializzazione:%20%0AInteressi%20nel%20progetto:%20)
 
 **👥 Cerchiamo**: Medici, Ricercatori, Sviluppatori, Data Scientists per collaborare!
 
@@ -46,7 +65,7 @@ Piattaforma **open source** di ricerca e sviluppo dedicata a soluzioni di Intell
 
 2. **Clona il repository**:
    ```bash
-   git clone https://github.com/tuousername/curriculum-streamlit.git
+   git clone https://github.com/NinoF840/curriculum-streamlit.git
    cd curriculum-streamlit
    ```
 
@@ -156,12 +175,14 @@ L'applicazione sarà disponibile su: `http://localhost:8501`
 | 📊 **Data Scientists** | Modelli ML, analisi dati | 📈 Data Expert |
 | 🎓 **Studenti** | Test, documentazione, traduzioni | 📚 Learning Helper |
 
-### 🌟 Community Stats
+### 🌟 Community Stats (Aggiornate in Tempo Reale)
 
-- **📦 Cloni Totali**: 41+
-- **👥 Sviluppatori Interessati**: 32+
-- **🔥 Picco Cloni**: 19 in un giorno (30 luglio)
-- **📈 Crescita**: In continua espansione!
+- **📦 Cloni Totali**: 24 (ultimi 14 giorni)
+- **👥 Sviluppatori Unici**: 22
+- **🔥 Picco Attività**: 7 cloni in un giorno (10 agosto)
+- **⭐ Stelle**: 0 (**Sii il primo a lasciare una stella!**)
+- **🍴 Fork**: 0 (primi fork in arrivo?)
+- **📈 Crescita**: Community in formazione - unisciti ora!
 
 ### 💬 Canali di Comunicazione
 
